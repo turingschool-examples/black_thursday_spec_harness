@@ -3,12 +3,12 @@
 begin
   require 'rspec/core/rake_task'
 
-  desc "Run each test file in the sales engine solution independently."
+  desc "Run each test file in the black thursday solution independently."
   namespace :test do
     task :independently do
       working_directory = Dir.pwd
       begin
-        Dir.chdir('../sales_engine')
+        Dir.chdir('../black_thursday')
         files = Dir.glob('test/**/*_test.rb')
         files.each do |file|
           system("ruby #{file}")
@@ -26,7 +26,7 @@ begin
   task :default do
     Rake::Task["spec"].invoke
 
-    extensions = SalesEngine::EXTENSIONS.sort rescue []
+    extensions = BlackThursday::EXTENSIONS.sort rescue []
 
     if extensions == %w(customer invoice merchant)
       Rake::Task["spec:extensions"].invoke
