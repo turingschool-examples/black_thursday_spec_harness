@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+  - 1.9.3
+notifications:
+  email:
+    recipients:
+      - katrina@jumpstartlab.com
+      - franklin@jumpstartlab.com
+      - jeff@jumpstartlab.com
+    on_success: always
+    on_failure: always
+branches:
+  except:
+  - master
+
