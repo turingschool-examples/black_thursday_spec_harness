@@ -1,130 +1,107 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe "SalesEngine merchants" do
-  context "Searching" do
-    describe ".random" do
-      it "usually returns different things on subsequent calls" do
-        merchant_one = engine.merchant_repository.random
-        merchant_two = engine.merchant_repository.random
+RSpec.describe "Merchants" do
+  context "Merchant" do
+    it "#id returns the merchant id" do
+      merchant_one = engine.merchant_repository.merchants.first
+      expect(merchant_one.id).to eq 1
 
-        10.times do
-          break if merchant_one.id != merchant_two.id
-          merchant_two = engine.merchant_repository.random
-        end
+      merchant_two = engine.merchant_repository.merchants.last
 
-        expect(merchant_one.id).to_not eq merchant_two.id
-      end
+      expect(merchant_two.id).to eq 100
     end
 
-    describe ".find_by_name" do
-      it "can find a record" do
-        merchant = engine.merchant_repository.find_by_name "Marvin Group"
-        expect(merchant.name).to eq "Marvin Group"
-      end
-    end
+    it "#name returns the merchant name" do
+      merchant_one = engine.merchant_repository.merchants.first
 
-    describe ".find_all_by_name" do
-      it "can find multiple records" do
-        merchants = engine.merchant_repository.find_all_by_name "Williamson Group"
-        expect(merchants.size).to eq 2
-      end
+      expect(merchant_one.name).to eq "Schroeder-Jerde"
+
+      merchant_two = engine.merchant_repository.merchants.last
+
+      expect(merchant_two.name).to eq "Wisozk, Hoeger and Bosco"
     end
   end
 
-  context "Relationships" do
-    let(:merchant) { engine.merchant_repository.find_by_name "Kirlin, Jakubowski and Smitham" }
-
-    describe "#items" do
-      it "has the correct number of them" do
-        expect(merchant.items.size).to eq 33
-      end
-
-      it "includes a known item" do
-        expect(merchant.items.map &:name).to include 'Item Consequatur Odit'
-      end
+  context "Merchant Repository" do
+    it "#all returns an array of all merchant instances" do
+      expected = engine.merchant_repository.all
+      expect(expected.count).to eq 100
     end
 
-    describe "#invoices" do
-      it "has the correct number of them" do
-        expect(merchant.invoices.size).to eq 43
-      end
+    it "#find_by_id(id) finds a merchant by id" do
+      id = 10
+      expected = engine.merchant_repository.find_by_id(id)
 
-      it "has a shipped invoice for a specific customer" do
-        invoice = merchant.invoices.find {|i| i.customer.last_name == 'Block' }
-        expect(invoice.status).to eq "shipped"
-      end
-    end
-  end
-
-  context "Business Intelligence" do
-
-    describe ".revenue" do
-      it "returns all revenue for a specific date" do
-        date = Date.parse "Tue, 20 Mar 2012"
-
-        expect(engine.merchant_repository.revenue date).to eq BigDecimal.new("2549722.91")
-      end
+      expect(expected.id).to eq 10
+      expect(expected.name).to eq "Bechtelar, Jones and Stokes"
+      expect(expected.created_at).to eq "2012-03-27 14:54:00 UTC"
+      expect(expected.updated_at).to eq "2012-03-27 14:54:00 UTC"
     end
 
-    describe ".most_revenue" do
-      it "returns the top n revenue-earners" do
-        most = engine.merchant_repository.most_revenue(3)
-        expect(most.first.name).to eq "Dicki-Bednar"
-        expect(most.last.name).to  eq "Okuneva, Prohaska and Rolfson"
-      end
+    it "#find_by_id(id) returns nil if the merchant does not exist" do
+      id = 101
+      expected = engine.merchant_repository.find_by_id(id)
+
+      expect(expected).to eq nil
     end
 
-    describe ".most_items" do
-      it "returns the top n item-sellers" do
-        most = engine.merchant_repository.most_items(5)
-        expect(most.first.name).to eq "Kassulke, O'Hara and Quitzon"
-        expect(most.last.name).to eq "Daugherty Group"
-      end
+    it "#find_by_name(name) finds the first matching merchant by name" do
+      name = "Ernser, Borer and Marks"
+      expected = engine.merchant_repository.find_by_name(name)
+
+      expect(expected.id).to eq 30
+      expect(expected.name).to eq "Ernser, Borer and Marks"
+      expect(expected.created_at).to eq "2012-03-27 14:54:01 UTC"
+      expect(expected.updated_at).to eq "2012-03-27 14:54:01 UTC"
     end
 
-    describe "#revenue" do
-      context "without a date" do
-        let(:merchant) { engine.merchant_repository.find_by_name "Dicki-Bednar" }
+    it "#find_by_name(name) is a case insensitive search" do
+      name = "ERNSER, BORER and MARKS"
+      expected = engine.merchant_repository.find_by_name(name)
 
-        it "reports all revenue" do
-          expect(merchant.revenue).to eq BigDecimal.new("1148393.74")
-        end
-      end
-      context "given a date" do
-        let(:merchant) { engine.merchant_repository.find_by_name "Willms and Sons" }
+      expect(expected.id).to eq 30
 
-        it "restricts to that date" do
-          date = Date.parse "Fri, 09 Mar 2012"
+      name = "ernser, borer and marks"
+      expected = engine.merchant_repository.find_by_name(name)
 
-          expect(merchant.revenue date).to eq BigDecimal.new("8373.29")
-        end
-      end
+      expect(expected.id).to eq 30
     end
 
-    describe "#favorite_customer" do
-      let(:merchant) { engine.merchant_repository.find_by_name "Terry-Moore" }
-      let(:customer_names) do
-        [["Jayme", "Hammes"], ["Elmer", "Konopelski"], ["Eleanora", "Kling"],
-         ["Friedrich", "Rowe"], ["Orion", "Hills"], ["Lambert", "Abernathy"]]
-      end
+    it "#find_by_name(name) returns nil if the merchant does not exist" do
+      name = "Turing School of Software and Design"
+      expected = engine.merchant_repository.find_by_name(name)
 
-      it "returns the customer with the most transactions" do
-        customer = merchant.favorite_customer
-        expect(customer_names).to be_any { |first_name, last_name|
-          customer.first_name == first_name && customer.last_name  == last_name
-        }
-      end
+      expect(expected).to eq nil
     end
 
-    describe "#customers_with_pending_invoices" do
-      let(:merchant) { engine.merchant_repository.find_by_name "Parisian Group" }
+    it "#find_all_by_name(name) finds all matching merchants by name" do
+      name = "Williamson Group"
+      expected = engine.merchant_repository.find_all_by_name(name)
 
-      it "returns the total number of customers with pending invoices" do
-        customers = merchant.customers_with_pending_invoices
-        expect(customers.count).to eq 4
-        expect(customers.map &:last_name).to include 'Ledner'
-      end
+      expect(expected.length).to eq 2
+      expect(expected.first.name).to eq "Williamson Group"
+
+      expect(expected.first.id).to eq 5
+      expect(expected.last.id).to eq 6
+    end
+
+    it "#find_all_by_name(name) is a case insensitive search" do
+      name = "WILLIAMSON GROUP"
+      expected = engine.merchant_repository.find_all_by_name(name)
+
+      expect(expected.size).to eq 2
+
+      name = "williamson group"
+      expected = engine.merchant_repository.find_all_by_name(name)
+
+      expect(expected.size).to eq 2
+    end
+
+    it "#find_all_by_name(name) returns an empty array if there are no matches" do
+      name = "Turing School of Software and Design"
+      expected = engine.merchant_repository.find_all_by_name(name)
+
+      expect(expected.size).to eq 0
     end
   end
-
 end
