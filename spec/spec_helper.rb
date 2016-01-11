@@ -16,15 +16,14 @@ unless File.expand_path(Dir.pwd) == spec_harness_root
 end
 
 # load their code
-sales_engine_root = File.expand_path('../../../sales_engine/lib', __FILE__)
-$LOAD_PATH.unshift(sales_engine_root)
+black_thursday_root = File.expand_path('../../../black_thursday/lib', __FILE__)
+$LOAD_PATH.unshift(black_thursday_root)
 begin
   require 'sales_engine'
 rescue LoadError => e
-  die_because.call "Expect sales engine to be in #{sales_engine_root.inspect}, when loaded it died because #{e.inspect}"
+  die_because.call "Expect black thursday to be in #{black_thursday_root.inspect}, when loaded it died because #{e.inspect}"
 end
 require 'date'
-
 
 # Must override #inspect on repositories (more on this at https://github.com/rspec/rspec-core/issues/1631)
 all_repositories = Object.constants.grep(/Repository$/).map { |name| Object.const_get name }
@@ -50,13 +49,18 @@ if bad_repositories.any?
 end
 
 
-module SalesEngineSpecHelpers
+module BlackThursdaySpecHelpers
   class << self
     attr_accessor :engine
   end
 
   def engine
+    binding.pry
     self.class.engine
+  end
+
+  def engine
+    BlackThursdaySpecHelpers.engine
   end
 end
 
@@ -64,13 +68,9 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.before(:suite) do
-    SalesEngineSpecHelpers.engine = SalesEngine.new(File.join spec_harness_root, 'csvs')
-    SalesEngineSpecHelpers.engine.startup
+    BlackThursdaySpecHelpers.engine = SalesEngine.new
+    BlackThursdaySpecHelpers.engine.load_data(File.join spec_harness_root, 'csvs')
   end
 
-  config.include Module.new {
-    def engine
-      SalesEngineSpecHelpers.engine
-    end
-  }
+  config.include BlackThursdaySpecHelpers
 end
