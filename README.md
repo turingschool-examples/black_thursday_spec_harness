@@ -29,20 +29,3 @@ To test your implementation against the evaluation specs, run:
 
     $ rake spec
 
-## TODO: Rework the extension specs to the new requirements
-
-If you have implemented the merchant extension, run:
-
-    $ bundle exec rake spec:extensions:merchant
-
-Similarly, if you have implemented the invoice or customer extensions, run:
-
-    $ bundle exec rake spec:extensions:invoice
-    # or
-    $ bundle exec rake spec:extensions:customer
-
-Or run them all with `bundle exec rake spec:extensions`.
-
-You should be all green.
-
-## TODO: Setup for Travis-CI (OPTIONAL)
