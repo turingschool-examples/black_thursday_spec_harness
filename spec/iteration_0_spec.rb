@@ -155,12 +155,12 @@ RSpec.describe "Iteration 0" do
       price = 2500
       expected = engine.items.find_all_by_price(price)
 
-      expect(expected.length).to eq 79
+      expect(expected.length).to eq 2
 
       price = 1000
       expected = engine.items.find_all_by_price(price)
 
-      expect(expected.length).to eq 63
+      expect(expected.length).to eq 2
 
       price = 2000000
       expected = engine.items.find_all_by_price(price)
@@ -172,17 +172,22 @@ RSpec.describe "Iteration 0" do
       range = (1000..1500)
       expected = engine.items.find_all_by_price_in_range(range)
 
-      expect(expected.length).to eq 205
+      expect(expected.length).to eq 19
 
       range = (10..150)
       expected = engine.items.find_all_by_price_in_range(range)
 
-      expect(expected.length).to eq 7
+      expect(expected.length).to eq 910
 
       range = (10..15)
       expected = engine.items.find_all_by_price_in_range(range)
 
-      expect(expected.length).to eq 0
+      expect(expected.length).to eq 212
+
+      range = (0..1)
+      expected = engine.items.find_all_by_price_in_range(range)
+
+      expect(expected.length).to eq 8
     end
 
     it "#find_all_by_merchant_id returns an array of items associated with given merchant id" do
@@ -225,7 +230,7 @@ RSpec.describe "Iteration 0" do
     it "#unit_price returns the unit price" do
       item_one = engine.items.all.first
 
-      expect(item_one.unit_price).to eq 1200
+      expect(item_one.unit_price).to eq 12.0
       expect(item_one.unit_price.class).to eq BigDecimal
     end
 
