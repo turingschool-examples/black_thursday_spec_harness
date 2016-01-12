@@ -10,13 +10,13 @@ unless defined? Bundler
 end
 
 # Must run from root
-spec_harness_root = File.expand_path('../..',  __FILE__)
+spec_harness_root = File.expand_path('..',  __dir__)
 unless File.expand_path(Dir.pwd) == spec_harness_root
   die_because.call "Run the program from the root of the Spec Harness (#{spec_harness_root.inspect})"
 end
 
 # load their code
-black_thursday_root = File.expand_path('../../../black_thursday/lib', __FILE__)
+black_thursday_root = File.join(spec_harness_root, '../black_thursday/lib')
 $LOAD_PATH.unshift(black_thursday_root)
 begin
   require 'sales_engine'
@@ -63,9 +63,15 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.before(:suite) do
-    BlackThursdaySpecHelpers.engine = SalesEngine.new
-    BlackThursdaySpecHelpers.engine.load_data(File.join spec_harness_root, 'csvs')
+    BlackThursdaySpecHelpers.engine = SalesEngine.from_csv({
+      items: File.join(spec_harness_root, 'csvs', 'items.csv'),
+      merchants: File.join(spec_harness_root, 'csvs', 'merchants.csv'),
+      customers: File.join(spec_harness_root, 'csvs', 'customers.csv'),
+      invoices: File.join(spec_harness_root, 'csvs', 'invoices.csv'),
+      invoice_items: File.join(spec_harness_root, 'csvs', 'invoice_items.csv'),
+      transactions: File.join(spec_harness_root, 'csvs', 'transactions.csv'),
+    })
   end
-
+  File.join spec_harness_root, 'csvs'
   config.include BlackThursdaySpecHelpers
 end
