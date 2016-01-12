@@ -1,7 +1,37 @@
+## Iteration 1 - Starting Relationships and Business Intelligence
+
 require "spec_helper"
 
-RSpec.describe "SalesAnalyst" do
-  context "Analysis" do
+RSpec.describe "Iteration 1" do
+  context "Merchants" do
+    it "#items returns associated items" do
+      id = 12335971
+      merchant = engine.merchants.find_by_id(id)
+      expected = merchant.items
+
+      expect(expected.length).to eq 1
+    end
+  end
+
+  context "Items" do
+    it "#merchant returns the associated merchant" do
+      id = 263538760
+      item = engine.items.find_by_id(id)
+      expected = item.merchant
+
+      expect(expected.id).to eq item.merchant_id
+      expect(expected.name).to eq "Blankiesandfriends"
+
+      id = 263421679
+      item = engine.items.find_by_id(id)
+      expected = item.merchant
+
+      expect(expected.id).to eq item.merchant_id
+      expect(expected.name).to eq "Chemisonodimenticato"
+    end
+  end
+
+  context "Sales Analyst" do
     let(:sales_analyst) { SalesAnalyst.new(engine) }
 
     it "#average_items_per_merchant returns average items per merchant" do
