@@ -55,11 +55,6 @@ module BlackThursdaySpecHelpers
   end
 
   def engine
-    binding.pry
-    self.class.engine
-  end
-
-  def engine
     BlackThursdaySpecHelpers.engine
   end
 end
