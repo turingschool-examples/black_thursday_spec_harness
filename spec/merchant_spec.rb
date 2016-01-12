@@ -97,4 +97,14 @@ RSpec.describe "Merchants" do
       expect(expected.size).to eq 0
     end
   end
+
+  context "Relationships" do
+    it "#items returns associated items" do
+      id = 12335971
+      merchant = engine.merchant_repository.find_by_id(id)
+      expected = merchant.items
+
+      expect(expected.length).to eq 1
+    end
+  end
 end

@@ -137,11 +137,29 @@ RSpec.describe "Items" do
       expected = engine.item_repository.find_all_by_merchant_id(merchant_id)
 
       expect(expected.length).to eq 6
-      
+
       merchant_id = 12336020
       expected = engine.item_repository.find_all_by_merchant_id(merchant_id)
 
       expect(expected.length).to eq 2
+    end
+  end
+
+  context "Relationships" do
+    it "#merchant returns the associated merchant" do
+      id = 263538760
+      item = engine.item_repository.find_by_id(id)
+      expected = item.merchant
+
+      expect(expected.id).to eq item.merchant_id
+      expect(expected.name).to eq "Blankiesandfriends"
+
+      id = 263421679
+      item = engine.item_repository.find_by_id(id)
+      expected = item.merchant
+
+      expect(expected.id).to eq item.merchant_id
+      expect(expected.name).to eq "Chemisonodimenticato"
     end
   end
 end
