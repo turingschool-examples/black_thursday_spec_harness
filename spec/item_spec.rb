@@ -22,7 +22,7 @@ RSpec.describe "Items" do
       item_one = engine.item_repository.items.first
 
       expect(item_one.description.class).to eq String
-      expect(item_one.description.length).to eq 2237
+      expect(item_one.description.length).to eq 2236
     end
 
     it "#unit_price returns the unit price" do
@@ -60,6 +60,11 @@ RSpec.describe "Items" do
 
       expect(expected.id).to eq id
       expect(expected.name).to eq "Puppy blankie"
+
+      id = 1
+      expected = engine.item_repository.find_by_id(id)
+
+      expect(expected).to eq nil
     end
 
     it "#find_by_name finds an item by name" do
@@ -68,6 +73,75 @@ RSpec.describe "Items" do
 
       expect(expected.name).to eq name
       expect(expected.id).to eq 263538760
+
+      name = "Sales Engine"
+      expected = engine.item_repository.find_by_name(name)
+
+      expect(expected).to eq nil
+    end
+
+    it "#find_all_with_description finds all items matching given description" do
+      description = "A large Yeti of sorts, casually devours a cow as the others watch numbly."
+      expected = engine.item_repository.find_all_with_description(description)
+
+      expect(expected.first.description).to eq description
+      expect(expected.first.id).to eq 263550472
+
+      description = "A LARGE yeti of SOrtS, casually devoURS a COw as the OTHERS WaTch NUmbly."
+      expected = engine.item_repository.find_all_with_description(description)
+
+      expect(expected.first.id).to eq 263550472
+
+      description = "Sales Engine is a relational database"
+      expected = engine.item_repository.find_all_with_description(description)
+
+      expect(expected.length).to eq 0
+    end
+
+    it "#find_all_by_price finds all items mathcing given price" do
+      price = 2500
+      expected = engine.item_repository.find_all_by_price(price)
+
+      expect(expected.length).to eq 79
+
+      price = 1000
+      expected = engine.item_repository.find_all_by_price(price)
+
+      expect(expected.length).to eq 63
+
+      price = 2000000
+      expected = engine.item_repository.find_all_by_price(price)
+
+      expect(expected.length).to eq 0
+    end
+
+    it "#find_all_by_price_in_range returns an array of items priced within given range" do
+      range = (1000..1500)
+      expected = engine.item_repository.find_all_by_price_in_range(range)
+
+      expect(expected.length).to eq 205
+
+      range = (10..150)
+      expected = engine.item_repository.find_all_by_price_in_range(range)
+
+      expect(expected.length).to eq 7
+
+      range = (10..15)
+      expected = engine.item_repository.find_all_by_price_in_range(range)
+
+      expect(expected.length).to eq 0
+    end
+
+    it "#find_all_by_merchant_id returns an array of items associated with given merchant id" do
+      merchant_id = 12334326
+      expected = engine.item_repository.find_all_by_merchant_id(merchant_id)
+
+      expect(expected.length).to eq 6
+      
+      merchant_id = 12336020
+      expected = engine.item_repository.find_all_by_merchant_id(merchant_id)
+
+      expect(expected.length).to eq 2
     end
   end
 end
