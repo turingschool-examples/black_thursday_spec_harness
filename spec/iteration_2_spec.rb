@@ -66,4 +66,40 @@ RSpec.describe "Iteration 2" do
       expect(expected).to eq []
     end
   end
+  # created_at - returns a Date instance for the date the item was first created
+  # updated_at - returns a Date instance for the date the item was last modified
+
+  context "Invoice" do
+    let(:invoice) { engine.invoices.find_by_id(3452) }
+
+    it "#id returns the invoice id" do
+      expect(invoice.id).to eq 3452
+      expect(invoice.id.class).to eq Fixnum
+    end
+
+    it "#customer_id returns the invoice customer id" do
+      expect(invoice.customer_id).to eq 679
+      expect(invoice.customer_id.class).to eq Fixnum
+    end
+
+    it "#merchant_id returns the invoice merchant id" do
+      expect(invoice.merchant_id).to eq 12335690
+      expect(invoice.merchant_id.class).to eq Fixnum
+    end
+
+    it "#status returns the invoice status" do
+      expect(invoice.status).to eq "pending"
+      expect(invoice.status.class).to eq String
+    end
+
+    it "#created_at returns a Time instance for the date the invoice was created" do
+      expect(invoice.created_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(invoice.created_at.class).to eq Time
+    end
+
+    it "#updated_at returns a Time instance for the date the invoice was last updated" do
+      expect(invoice.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(invoice.updated_at.class).to eq Time
+    end
+  end
 end
