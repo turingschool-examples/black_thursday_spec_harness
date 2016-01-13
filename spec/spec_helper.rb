@@ -20,6 +20,7 @@ black_thursday_root = File.join(spec_harness_root, '../black_thursday/lib')
 $LOAD_PATH.unshift(black_thursday_root)
 begin
   require 'sales_engine'
+  require 'sales_analyst'
 rescue LoadError => e
   die_because.call "Expect black thursday to be in #{black_thursday_root.inspect}, when loaded it died because #{e.inspect}"
 end
