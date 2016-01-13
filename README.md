@@ -27,5 +27,5 @@ This will load in your `BlackThursday` implementation from your local file syste
 
 To test your implementation against the evaluation specs, run:
 
-    $ rake spec
+    $ bundle exec rake spec
 
