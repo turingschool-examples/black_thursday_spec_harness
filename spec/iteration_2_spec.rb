@@ -91,12 +91,12 @@ RSpec.describe "Iteration 2" do
     end
 
     it "#created_at returns a Time instance for the date the invoice was created" do
-      expect(invoice.created_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(invoice.created_at).to eq Time.new("2015-01-01 00:00:00.000000000 -0700")
       expect(invoice.created_at.class).to eq Time
     end
 
     it "#updated_at returns a Time instance for the date the invoice was last updated" do
-      expect(invoice.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(invoice.updated_at).to eq Time.new("2015-01-01 00:00:00.000000000 -0700")
       expect(invoice.updated_at.class).to eq Time
     end
 
@@ -155,11 +155,11 @@ RSpec.describe "Iteration 2" do
       expect(expected.first.class).to eq Merchant
     end
 
-    xit "#top_days_by_invoice_count returns weekdays which are more than two standard deviations above the mean" do
+    it "#top_days_by_invoice_count returns invoices with an invoice item count more than two standard deviations above the mean" do
       expected = sales_analyst.top_days_by_invoice_count
 
-      expect(expected.length).to eq 2
-      expect(expected.first.class).to eq String
+      expect(expected.length).to eq 1
+      expect(expected.first.class).to eq Symbol
     end
 
     it "#invoice_status returns the percentage of invoices with given status" do

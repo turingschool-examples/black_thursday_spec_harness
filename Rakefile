@@ -11,12 +11,15 @@ begin
     parsed_data = CSV.parse csv_data, headers: true, header_converters: :symbol
 
     parsed_data.each do |row|
-      random_date = rand(Date.civil(2000, 1, 1)..Date.civil(2016, 01, 13))
-      row[:created_at] = random_date
+      created_at = rand(Date.civil(2000, 1, 1)..Date.civil(2016, 01, 13))
+      row[:created_at] = created_at
+
+      updated_at = rand(created_at..Date.civil(2016, 02, 28))
+      row[:updated_at] = updated_at
     end
 
     new_file = File.open "./csvs/new_invoices.csv", "w"
-    new_file.write parsed_data 
+    new_file.write parsed_data
   end
 
   desc "Run each test file in the black thursday solution independently."
