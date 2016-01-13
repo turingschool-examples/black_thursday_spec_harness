@@ -1,7 +1,23 @@
 #!/usr/bin/env rake
+require "csv"
+require "pry"
 
 begin
   require 'rspec/core/rake_task'
+
+  desc "Update Invoices.csv to random dates."
+  task :update_invoices do
+    csv_data = File.read "./csvs/invoices.csv"
+    parsed_data = CSV.parse csv_data, headers: true, header_converters: :symbol
+
+    parsed_data.each do |row|
+      random_date = rand(Date.civil(2000, 1, 1)..Date.civil(2016, 01, 13))
+      row[:created_at] = random_date
+    end
+
+    new_file = File.open "./csvs/new_invoices.csv", "w"
+    new_file.write parsed_data 
+  end
 
   desc "Run each test file in the black thursday solution independently."
   namespace :test do
