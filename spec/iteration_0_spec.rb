@@ -152,36 +152,35 @@ RSpec.describe "Iteration 0" do
     end
 
     it "#find_all_by_price finds all items mathcing given price" do
-      price = 2500
+      price = 25.00
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 79
 
-      price = 1000
+      price = 10.00
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 63
 
-      price = 2000000
+      price = 20000.00
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 0
     end
 
     it "#find_all_by_price_in_range returns an array of items priced within given range" do
-      range = (1000..1500)
+      range = (10.00..15.00)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 205
 
-      range = (10..150)
+      range = (0.10..1.50)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 7
 
-      range = (10..15)
+      range = (0.10..0.15)
       expected = engine.items.find_all_by_price_in_range(range)
-
       expect(expected.length).to eq 0
     end
 

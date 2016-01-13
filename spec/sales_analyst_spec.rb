@@ -28,14 +28,14 @@ RSpec.describe "SalesAnalyst" do
       merchant_id = 12334105
       expected = sales_analyst.average_item_price_for_merchant(merchant_id)
 
-      expect(expected).to eq 1665.67
+      expect(expected).to eq 16.66
       expect(expected.class).to eq BigDecimal
     end
 
     it "#average_price_per_merchant returns the average price for all merchants" do
       expected = sales_analyst.average_price_per_merchant
 
-      expect(expected).to eq 25105.51
+      expect(expected).to eq 251.06
       expect(expected.class).to eq BigDecimal
     end
 
