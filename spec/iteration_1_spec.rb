@@ -43,13 +43,11 @@ RSpec.describe "Iteration 1" do
 
     it "#average_items_per_merchant_standard_deviation returns the standard deviation" do
       expected = sales_analyst.average_items_per_merchant_standard_deviation
-
-      expect(expected).to eq 3.26
+      expect(expected).to eq 3.25
       expect(expected.class).to eq Float
     end
     it "#merchants_with_low_item_count returns merchants more than one standard deviation below the average number of products offered" do
       expected = sales_analyst.merchants_with_low_item_count
-
       expect(expected.length).to eq 52
       expect(expected.first.class).to eq Merchant
     end

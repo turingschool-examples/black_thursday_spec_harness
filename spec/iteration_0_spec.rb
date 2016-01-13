@@ -80,7 +80,6 @@ RSpec.describe "Iteration 0" do
 
       expect(expected.size).to eq 0
     end
-  end
 
   context "Merchant" do
     it "#id returns the merchant id" do
@@ -152,17 +151,17 @@ RSpec.describe "Iteration 0" do
     end
 
     it "#find_all_by_price finds all items mathcing given price" do
-      price = 2500
+      price = 25.0
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 79
 
-      price = 1000
+      price = 10.0
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 63
 
-      price = 2000000
+      price = 20000.0
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 0
