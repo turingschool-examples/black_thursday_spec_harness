@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe "Iteration 0" do
-  context "Merchant Repository"
+  context "Merchant Repository" do
     it "#all returns an array of all merchant instances" do
       expected = engine.merchants.all
       expect(expected.count).to eq 476
