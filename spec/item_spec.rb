@@ -27,8 +27,8 @@ RSpec.describe "Items" do
 
     it "#unit_price returns the unit price" do
       item_one = engine.items.all.first
-
-      expect(item_one.unit_price).to eq 1200
+      require "pry"; binding.pry
+      expect(item_one.unit_price).to eq 12.00
       expect(item_one.unit_price.class).to eq BigDecimal
     end
 
