@@ -183,9 +183,146 @@ RSpec.describe "Iteration 3" do
       expect(transaction.created_at.class).to eq Time
     end
 
-    xit "#updated_at returns a Time instance for the date the invoice item was last updated" do
+    it "#updated_at returns a Time instance for the date the invoice item was last updated" do
       expect(transaction.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
       expect(transaction.updated_at.class).to eq Time
+    end
+  end
+
+  context "Customer Repository" do
+    it "#all returns all of the customers" do
+      expected = engine.customers.all
+      expect(expected.length).to eq 1000
+      expect(expected.first.class).to eq Customer
+    end
+
+    it "#find_by_id returns the customer with matching id" do
+      id = 100
+      expected = engine.customers.find_by_id(id)
+
+      expect(expected.id).to eq id
+      expect(expected.class).to eq Customer
+    end
+
+    it "#find_all_by_first_name returns all customers with matching first name" do
+      fragment = "oe"
+      expected = engine.customers.find_all_by_first_name(fragment)
+
+      expect(expected.length).to eq 8
+      expect(expected.first.class).to eq Customer
+    end
+
+    it "#find_all_by_last_name returns all customers with matching last name" do
+      fragment = "On"
+      expected = engine.customers.find_all_by_last_name(fragment)
+
+      expect(expected.length).to eq 85
+      expect(expected.first.class).to eq Customer
+    end
+
+    it "#find_all_by_first_name and #find_all_by_last_name are case insensitive" do
+      fragment = "NN"
+      expected = engine.customers.find_all_by_first_name(fragment)
+
+      expect(expected.length).to eq 57
+      expect(expected.first.class).to eq Customer
+
+      fragment = "oN"
+      expected = engine.customers.find_all_by_last_name(fragment)
+
+      expect(expected.length).to eq 85
+      expect(expected.first.class).to eq Customer
+    end
+  end
+
+  context "Customer" do
+    let(:customer) { engine.customers.find_by_id(500) }
+
+    it "#id returns the id" do
+      expect(customer.id).to eq 500
+      expect(customer.id.class).to eq Fixnum
+    end
+
+    it "#first_name returns the first_name" do
+      expect(customer.first_name).to eq "Hailey"
+      expect(customer.first_name.class).to eq String
+    end
+
+    it "#last_name returns the last_name" do
+      expect(customer.last_name).to eq "Veum"
+      expect(customer.last_name.class).to eq String
+    end
+
+    it "#created_at returns a Time instance for the date the invoice item was created" do
+      expect(customer.created_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(customer.created_at.class).to eq Time
+    end
+
+    it "#updated_at returns a Time instance for the date the invoice item was last updated" do
+      expect(customer.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(customer.updated_at.class).to eq Time
+    end
+  end
+
+  context "Relationships" do
+    let(:invoice) { engine.invoices.find_by_id(106) }
+
+    it "invoice#items returns all items related to the invoice" do
+      expected = invoice.items
+      expect(expected.length).to eq 7
+      expect(expected.first.class).to eq Item
+    end
+
+    it "invoice#transactions returns all transactions related to the invoice" do
+      expected = invoice.transactions
+      expect(expected.length).to eq 1
+      expect(expected.first.class).to eq Transaction
+    end
+
+    it "invoice#customer returns the customer related to the invoice" do
+      expected = invoice.customer
+      expect(expected.id).to eq 22
+      expect(expected.class).to eq Customer
+    end
+
+    it "transaction#invoice returns the related invoice" do
+      expected = engine.transactions.find_by_id(1452).invoice
+
+      expect(expected.id).to eq  1452
+      expect(expected.status).to eq "pending"
+      expect(expected.class).to eq Invoice
+    end
+
+    it "merchant#customers returns related customers" do
+      expected = engine.merchants.find_by_id(12334194).customers
+
+      expect(expected.length).to eq 13
+      expect(expected.first.class).to eq Customer
+    end
+  end
+
+  context "Business Intelligence" do
+    it "invoice#is_paid_in_full? returns true if the invoice is paid in full" do
+      expected = engine.invoices.all.first.is_paid_in_full?
+      expect(expected).to eq true
+
+      expected = engine.invoices.find_by_id(2).is_paid_in_full?
+      expect(expected).to eq true
+
+      expected = engine.invoices.find_by_id(9).is_paid_in_full?
+      expect(expected).to eq false
+
+      expected = engine.invoices.find_by_id(18).is_paid_in_full?
+      expect(expected).to eq false
+    end
+
+    it "invoice#total returns the total dollar amount if the invoice is paid in full" do
+      invoice = engine.invoices.all.first
+      expected = invoice.total
+
+      expect(invoice.is_paid_in_full?).to eq true
+      expect(expected).to eq 3486.0
+      expect(expected.class).to eq BigDecimal
     end
   end
 end
