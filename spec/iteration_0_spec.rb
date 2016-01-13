@@ -243,7 +243,7 @@ RSpec.describe "Iteration 0" do
 
     it "#updated_at returns the Time the item was last updated" do
       item_one = engine.items.all.first
-
+      
       expect(item_one.updated_at).to eq Time.new("2007-01-01 00:00:00 -0700")
       expect(item_one.updated_at.class).to eq Time
     end

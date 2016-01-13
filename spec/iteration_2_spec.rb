@@ -50,24 +50,22 @@ RSpec.describe "Iteration 2" do
     end
 
     it "#find_all_by_status returns all invoices associated with given status" do
-      status = "shipped"
+      status = :shipped
       expected = engine.invoices.find_all_by_status(status)
 
       expect(expected.length).to eq 2839
 
-      status = "pending"
+      status = :pending
       expected = engine.invoices.find_all_by_status(status)
 
       expect(expected.length).to eq 1473
 
-      status = "sold"
+      status = :sold
       expected = engine.invoices.find_all_by_status(status)
 
       expect(expected).to eq []
     end
   end
-  # created_at - returns a Date instance for the date the item was first created
-  # updated_at - returns a Date instance for the date the item was last modified
 
   context "Invoice" do
     let(:invoice) { engine.invoices.find_by_id(3452) }
@@ -100,6 +98,82 @@ RSpec.describe "Iteration 2" do
     it "#updated_at returns a Time instance for the date the invoice was last updated" do
       expect(invoice.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
       expect(invoice.updated_at.class).to eq Time
+    end
+
+    it "#merchant returns the associated merchant" do
+      expected = invoice.merchant
+
+      expect(expected.class).to eq Merchant
+      expect(expected.id).to eq 12335690
+    end
+  end
+
+  context "Merchants" do
+    it "#invoices returns invoices associated with given merchant" do
+      merchant = engine.merchants.find_by_id(12335690)
+      expected = merchant.invoices
+
+      expect(expected.length).to eq 16
+      expect(expected.first.class).to eq Invoice
+
+      merchant = engine.merchants.find_by_id(12334189)
+      expected = merchant.invoices
+
+      expect(expected.length).to eq 10
+      expect(expected.first.class).to eq Invoice
+    end
+  end
+
+  context "SalesAnalyst" do
+    let(:sales_analyst) { SalesAnalyst.new(engine) }
+
+    it "#average_invoices_per_merchant returns average number of invoices per merchant" do
+      expected = sales_analyst.average_invoices_per_merchant
+
+      expect(expected).to eq 10.47
+      expect(expected.class).to eq Float
+    end
+
+    it "#average_invoices_per_merchant_standard_deviation returns the standard deviation" do
+      expected = sales_analyst.average_invoices_per_merchant_standard_deviation
+
+      expect(expected).to eq 3.32
+      expect(expected.class).to eq Float
+    end
+
+    it "#top_merchants_by_invoice_count returns merchants that are two standard deviations above the mean" do
+      expected = sales_analyst.top_merchants_by_invoice_count
+
+      expect(expected.length).to eq 12
+      expect(expected.first.class).to eq Merchant
+    end
+
+    it "#bottom_merchants_by_invoice_count returns merchants that are two standard deviations below the mean" do
+      expected = sales_analyst.bottom_merchants_by_invoice_count
+
+      expect(expected.length).to eq 5
+      expect(expected.first.class).to eq Merchant
+    end
+
+    xit "#top_days_by_invoice_count returns weekdays which are more than two standard deviations above the mean" do
+      expected = sales_analyst.top_days_by_invoice_count
+
+      expect(expected.length).to eq 2
+      expect(expected.first.class).to eq String
+    end
+
+    it "#invoice_status returns the percentage of invoices with given status" do
+      expected = sales_analyst.invoice_status(:pending)
+
+      expect(expected).to eq 29.55
+
+      expected = sales_analyst.invoice_status(:shipped)
+
+      expect(expected).to eq 56.95
+
+      expected = sales_analyst.invoice_status(:returned)
+
+      expect(expected).to eq 13.5
     end
   end
 end
