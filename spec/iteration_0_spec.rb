@@ -158,7 +158,6 @@ RSpec.describe "Iteration 0" do
 
       price = 10.0
       expected = engine.items.find_all_by_price(price)
-      require "pry"; binding.pry
 
       expect(expected.length).to eq 63
 
