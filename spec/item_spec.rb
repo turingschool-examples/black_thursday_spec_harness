@@ -100,7 +100,6 @@ RSpec.describe "Items" do
     it "#find_all_by_price finds all items mathcing given price" do
       price = 25.00
       expected = engine.items.find_all_by_price(price)
-      require "pry"; binding.pry
       expect(expected.length).to eq 79
 
       price = 10.00
