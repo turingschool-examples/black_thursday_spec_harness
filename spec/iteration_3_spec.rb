@@ -91,4 +91,62 @@ RSpec.describe "Iteration 3" do
       expect(invoice_item.updated_at.class).to eq Time
     end
   end
+
+  context "Transactions" do
+    it "#all returns all transactions" do
+      expected = engine.transactions.all
+      expect(expected.count).to eq 4985
+    end
+
+    it "#find_by_id returns a transaction matching the given id" do
+      id = 2
+      expected = engine.transactions.find_by_id(id)
+
+      expect(expected.id).to eq id
+      expect(expected.class).to eq Transaction
+    end
+
+    it "#find_all_by_invoice_id returns all transactions matching the given id" do
+      id = 456
+      expected = engine.transactions.find_all_by_invoice_id(id)
+
+      expect(expected.length).to eq 1
+      expect(expected.first.invoice_id).to eq id
+      expect(expected.first.class).to eq Transaction
+
+      id = 14560
+      expected = engine.transactions.find_all_by_invoice_id(id)
+      expect(expected.empty?).to eq true
+    end
+
+    it "#find_all_by_credit_card_number returns all transactions matching given credit card number" do
+      credit_card_number = 4848466917766329
+      expected = engine.transactions.find_all_by_credit_card_number(credit_card_number)
+
+      expect(expected.length).to eq 1
+      expect(expected.first.class).to eq Transaction
+      expect(expected.first.credit_card_number).to eq credit_card_number
+
+      credit_card_number = 4848466917766328
+      expected = engine.transactions.find_all_by_credit_card_number(credit_card_number)
+
+      expect(expected.empty?).to eq true
+    end
+
+    it "#find_all_by_result returns all transactions matching given result" do
+      result = "success"
+      expected = engine.transactions.find_all_by_result(result)
+
+      expect(expected.length).to eq 4158
+      expect(expected.first.class).to eq Transaction
+      expect(expected.first.result).to eq result
+
+      result = "failed"
+      expected = engine.transactions.find_all_by_result(result)
+
+      expect(expected.length).to eq 827
+      expect(expected.first.class).to eq Transaction
+      expect(expected.first.result).to eq result
+    end
+  end
 end
