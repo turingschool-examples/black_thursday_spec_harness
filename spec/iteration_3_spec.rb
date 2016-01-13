@@ -149,4 +149,43 @@ RSpec.describe "Iteration 3" do
       expect(expected.first.result).to eq result
     end
   end
+
+  context "Transaction" do
+    let(:transaction) { engine.transactions.find_by_id(1) }
+
+    it "#id returns the transaction id" do
+      expect(transaction.id).to eq 1
+      expect(transaction.id.class).to eq Fixnum
+    end
+
+    it "#invoice_id returns the invoice id" do
+      expect(transaction.invoice_id).to eq 1
+      expect(transaction.invoice_id.class).to eq Fixnum
+    end
+
+    it "#credit_card_number returns the credit card number" do
+      expect(transaction.credit_card_number).to eq 4068631943231473
+      expect(transaction.credit_card_number.class).to eq Fixnum
+    end
+
+    it "#credit_card_expiration_date returns the credit card expiration" do
+      expect(transaction.credit_card_expiration_date).to eq "0217"
+      expect(transaction.credit_card_expiration_date.class).to eq String
+    end
+
+    it "#result returns the result" do
+      expect(transaction.result).to eq "success"
+      expect(transaction.result.class).to eq String
+    end
+
+    it "#created_at returns a Time instance for the date the invoice item was created" do
+      expect(transaction.created_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(transaction.created_at.class).to eq Time
+    end
+
+    xit "#updated_at returns a Time instance for the date the invoice item was last updated" do
+      expect(transaction.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(transaction.updated_at.class).to eq Time
+    end
+  end
 end
