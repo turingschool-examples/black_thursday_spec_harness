@@ -5,6 +5,19 @@ require "pry"
 begin
   require 'rspec/core/rake_task'
 
+  desc "Update Transactions.csv to random invoices"
+  task :update_transactions do
+    csv_data = File.read "./csvs/transactions.csv"
+    parsed_data = CSV.parse csv_data, headers: true, header_converters: :symbol
+
+    parsed_data.each do |row|
+      row[:invoice_id] = rand(1..4985)
+    end
+
+    new_file = File.open "./csvs/new_transactions.csv", "w"
+    new_file.write parsed_data
+  end
+
   desc "Update Invoices.csv to random dates."
   task :update_invoices do
     csv_data = File.read "./csvs/invoices.csv"
@@ -67,5 +80,6 @@ begin
   RSpec::Core::RakeTask.new("spec:extensions:customer") do |t|
     t.rspec_opts = "--tag customer"
   end
+
 rescue
 end
