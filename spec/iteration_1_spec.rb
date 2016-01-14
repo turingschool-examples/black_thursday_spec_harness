@@ -63,9 +63,9 @@ RSpec.describe "Iteration 1" do
     end
 
     it "#average_price_per_merchant returns the average price for all merchants" do
-      expected = sales_analyst.average_price_per_merchant
+      expected = sales_analyst.average_average_price_per_merchant
 
-      expect(expected).to eq 250.93
+      expect(expected).to eq 349.42
       expect(expected.class).to eq BigDecimal
     end
 

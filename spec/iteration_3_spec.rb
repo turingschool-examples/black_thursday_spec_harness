@@ -71,7 +71,7 @@ RSpec.describe "Iteration 3" do
       expect(invoice_item.item_id.class).to eq Fixnum
     end
 
-    it "#invoice_id returns the item id" do
+    it "#invoice_id returns the invoice id" do
       expect(invoice_item.invoice_id).to eq 522
       expect(invoice_item.invoice_id.class).to eq Fixnum
     end
@@ -82,12 +82,12 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#created_at returns a Time instance for the date the invoice item was created" do
-      expect(invoice_item.created_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(invoice_item.created_at).to eq Time.parse("2012-03-27 14:54:35 UTC")
       expect(invoice_item.created_at.class).to eq Time
     end
 
     it "#updated_at returns a Time instance for the date the invoice item was last updated" do
-      expect(invoice_item.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(invoice_item.updated_at).to eq Time.parse("2012-03-27 14:54:35 UTC")
       expect(invoice_item.updated_at.class).to eq Time
     end
   end
@@ -107,10 +107,10 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#find_all_by_invoice_id returns all transactions matching the given id" do
-      id = 456
+      id = 2179
       expected = engine.transactions.find_all_by_invoice_id(id)
 
-      expect(expected.length).to eq 1
+      expect(expected.length).to eq 2
       expect(expected.first.invoice_id).to eq id
       expect(expected.first.class).to eq Transaction
 
@@ -159,7 +159,7 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#invoice_id returns the invoice id" do
-      expect(transaction.invoice_id).to eq 1
+      expect(transaction.invoice_id).to eq 2179
       expect(transaction.invoice_id.class).to eq Fixnum
     end
 
@@ -179,12 +179,12 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#created_at returns a Time instance for the date the invoice item was created" do
-      expect(transaction.created_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(transaction.created_at).to eq Time.parse("2012-02-26 20:56:56 UTC")
       expect(transaction.created_at.class).to eq Time
     end
 
     it "#updated_at returns a Time instance for the date the invoice item was last updated" do
-      expect(transaction.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(transaction.updated_at).to eq Time.parse("2012-02-26 20:56:56 UTC")
       expect(transaction.updated_at.class).to eq Time
     end
   end
@@ -254,12 +254,12 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#created_at returns a Time instance for the date the invoice item was created" do
-      expect(customer.created_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(customer.created_at).to eq Time.parse("2012-03-27 14:56:08 UTC")
       expect(customer.created_at.class).to eq Time
     end
 
     it "#updated_at returns a Time instance for the date the invoice item was last updated" do
-      expect(customer.updated_at).to eq Time.new("2012-01-01 00:00:00.000000000 -0700")
+      expect(customer.updated_at).to eq Time.parse("2012-03-27 14:56:08 UTC")
       expect(customer.updated_at.class).to eq Time
     end
   end
@@ -288,8 +288,7 @@ RSpec.describe "Iteration 3" do
     it "transaction#invoice returns the related invoice" do
       expected = engine.transactions.find_by_id(1452).invoice
 
-      expect(expected.id).to eq  1452
-      expect(expected.status).to eq "pending"
+      expect(expected.id).to eq  4746
       expect(expected.class).to eq Invoice
     end
 
@@ -303,16 +302,16 @@ RSpec.describe "Iteration 3" do
 
   context "Business Intelligence" do
     it "invoice#is_paid_in_full? returns true if the invoice is paid in full" do
-      expected = engine.invoices.all.first.is_paid_in_full?
+      expected = engine.invoices.find_by_id(1).is_paid_in_full?
       expect(expected).to eq true
 
-      expected = engine.invoices.find_by_id(2).is_paid_in_full?
+      expected = engine.invoices.find_by_id(200).is_paid_in_full?
       expect(expected).to eq true
 
-      expected = engine.invoices.find_by_id(9).is_paid_in_full?
+      expected = engine.invoices.find_by_id(1752).is_paid_in_full?
       expect(expected).to eq false
 
-      expected = engine.invoices.find_by_id(18).is_paid_in_full?
+      expected = engine.invoices.find_by_id(1445).is_paid_in_full?
       expect(expected).to eq false
     end
 
