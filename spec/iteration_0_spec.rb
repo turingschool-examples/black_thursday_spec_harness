@@ -160,7 +160,7 @@ RSpec.describe "Iteration 0" do
       price = 10.00
       expected = engine.items.find_all_by_price(price)
 
-      expect(expected.length).to eq 64
+      expect(expected.length).to eq 63
 
       price = 20000.00
       expected = engine.items.find_all_by_price(price)
@@ -182,12 +182,12 @@ RSpec.describe "Iteration 0" do
       range = (10..15)
       expected = engine.items.find_all_by_price_in_range(range)
 
-      expect(expected.length).to eq 212
+      expect(expected.length).to eq 205
 
       range = (0..1)
       expected = engine.items.find_all_by_price_in_range(range)
 
-      expect(expected.length).to eq 8
+      expect(expected.length).to eq 6
     end
 
     it "#find_all_by_merchant_id returns an array of items associated with given merchant id" do
