@@ -17,7 +17,7 @@ RSpec.describe "Iteration 2" do
       expect(expected.id).to eq invoice_id
       expect(expected.merchant_id).to eq 12335690
       expect(expected.customer_id).to eq 679
-      expect(expected.status).to eq "pending"
+      expect(expected.status).to eq :pending
 
       invoice_id = 5000
       expected = engine.invoices.find_by_id(invoice_id)
@@ -86,8 +86,8 @@ RSpec.describe "Iteration 2" do
     end
 
     it "#status returns the invoice status" do
-      expect(invoice.status).to eq "pending"
-      expect(invoice.status.class).to eq String
+      expect(invoice.status).to eq :pending
+      expect(invoice.status.class).to eq Symbol
     end
 
     it "#created_at returns a Time instance for the date the invoice was created" do
