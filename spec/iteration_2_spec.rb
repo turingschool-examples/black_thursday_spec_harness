@@ -165,7 +165,7 @@ RSpec.describe "Iteration 2" do
     it "#invoice_status returns the percentage of invoices with given status" do
       expected = sales_analyst.invoice_status(:pending)
 
-      expect(expected).to eq 29.55
+      expect(expected).to eq 29.5
 
       expected = sales_analyst.invoice_status(:shipped)
 
