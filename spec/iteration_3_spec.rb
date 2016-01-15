@@ -77,8 +77,13 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#unit_price returns the unit price" do
-      expect(invoice_item.unit_price).to eq 847.0
+      expect(invoice_item.unit_price).to eq 84787.0
       expect(invoice_item.unit_price.class).to eq BigDecimal
+    end
+
+    it "#unit_price_to_dollars returns the unit price in terms of dollars" do
+      expect(invoice_item.unit_price_to_dollars).to eq 847.87
+      expect(invoice_item.unit_price_to_dollars.class).to eq Float
     end
 
     it "#created_at returns a Time instance for the date the invoice item was created" do
