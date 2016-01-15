@@ -230,7 +230,7 @@ RSpec.describe "Iteration 0" do
     it "#unit_price returns the unit price" do
       item_one = engine.items.all.first
 
-      expect(item_one.unit_price).to eq 12.0
+      expect(item_one.unit_price_to_dollars).to eq 12.0
       expect(item_one.unit_price.class).to eq BigDecimal
     end
 

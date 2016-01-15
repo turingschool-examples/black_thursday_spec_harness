@@ -58,15 +58,15 @@ RSpec.describe "Iteration 1" do
       merchant_id = 12334105
       expected = sales_analyst.average_item_price_for_merchant(merchant_id)
 
-      expect(expected).to eq 15.67
-      expect(expected.class).to eq BigDecimal
+      expect(expected).to eq 16.66
+      expect(expected.class).to eq Float
     end
 
     it "#average_price_per_merchant returns the average price for all merchants" do
       expected = sales_analyst.average_average_price_per_merchant
 
-      expect(expected).to eq 349.42
-      expect(expected.class).to eq BigDecimal
+      expect(expected).to eq 349.56
+      expect(expected.class).to eq Float
     end
 
     it "#golden_items returns items that are two standard deviations above the average price" do
