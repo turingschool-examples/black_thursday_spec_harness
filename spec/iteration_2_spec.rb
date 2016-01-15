@@ -166,7 +166,7 @@ RSpec.describe "Iteration 2" do
       expected = sales_analyst.invoice_status(:pending)
 
       expect(expected).to eq 29.55
-
+//
       expected = sales_analyst.invoice_status(:shipped)
 
       expect(expected).to eq 56.95
