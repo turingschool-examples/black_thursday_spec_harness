@@ -4,6 +4,22 @@ require "pry"
 
 begin
   require 'rspec/core/rake_task'
+  desc "Update merchants.csv to be created on random dates."
+  task :update_merchants do
+    csv_data = File.read "./csvs/merchants.csv"
+    parsed_data = CSV.parse csv_data, headers: true, header_converters: :symbol
+
+    parsed_data.each do |row|
+      created_at = rand(Date.civil(2000, 1, 1)..Date.civil(2016, 01, 13))
+      row[:created_at] = created_at
+
+      updated_at = rand(created_at..Date.civil(2016, 02, 28))
+      row[:updated_at] = updated_at
+    end
+
+    new_file = File.open "./csvs/new_merchants.csv", "w"
+    new_file.write parsed_data
+  end
 
   desc "Update Transactions.csv to random invoices"
   task :update_transactions do
