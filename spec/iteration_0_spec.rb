@@ -160,7 +160,7 @@ RSpec.describe "Iteration 0" do
       price = 10.00
       expected = engine.items.find_all_by_price(price)
 
-      expect(expected.length).to eq 64
+      expect(expected.length).to eq 63
 
       price = 20000.00
       expected = engine.items.find_all_by_price(price)
