@@ -6,7 +6,7 @@ RSpec.describe "Iteration 3" do
   context "Invoice Items" do
     it "#all returns an array of all invoice item instances" do
       expected = engine.invoice_items.all
-      expect(expected.count).to eq 21687
+      expect(expected.count).to eq 21830
     end
 
     it "#find_by_id finds an invoice_item by id" do
@@ -325,8 +325,8 @@ RSpec.describe "Iteration 3" do
       expected = invoice.total
 
       expect(invoice.is_paid_in_full?).to eq true
-      expect(expected).to eq 3486.0
-      expect(expected.class).to eq BigDecimal
+      expect(expected).to eq 3489.56
+      expect(expected.class).to eq Float
     end
   end
 end

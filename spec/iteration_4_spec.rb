@@ -14,7 +14,7 @@ RSpec.describe "Iteration 4" do
       expect(expected.first.class).to eq Merchant
     end
 
-    it "#top_revenue_earners(x) returns the top x merchants ranked by revenue" do
+    it "#top_revenue_earners(x) returns the top x merchants ranked by revenue", t:true do
       expected = sales_analyst.top_revenue_earners(10)
       first = expected.first.revenue
       last = expected.last.revenue
