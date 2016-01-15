@@ -58,7 +58,7 @@ RSpec.describe "Iteration 1" do
       merchant_id = 12334105
       expected = sales_analyst.average_item_price_for_merchant(merchant_id)
 
-      expect(expected).to eq 15.67
+      expect(expected).to eq 16.66
       expect(expected.class).to eq BigDecimal
     end
 
