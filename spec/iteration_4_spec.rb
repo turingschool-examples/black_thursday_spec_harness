@@ -50,5 +50,44 @@ RSpec.describe "Iteration 4" do
 
       expect(expected.last.id).to eq 12334235
     end
+
+    it "#top_percent(xx) returns the top xx percent of the collection" do
+      top_revenue_earners = sales_analyst.top_revenue_earners
+      expected = sales_analyst.top_percent(top_revenue_earners, 0.5)
+
+      expect(expected.length).to eq 10
+
+      top_revenue_earners = sales_analyst.top_revenue_earners(100)
+      expected = sales_analyst.top_percent(top_revenue_earners, 0.1)
+
+      expect(expected.length).to eq 10
+
+      top_revenue_earners = sales_analyst.top_revenue_earners(90)
+      expected = sales_analyst.top_percent(top_revenue_earners, 0.15)
+
+      expect(expected.length).to eq 14
+
+      top_revenue_earners = sales_analyst.top_revenue_earners(76)
+      expected = sales_analyst.top_percent(top_revenue_earners, 0.14)
+
+      expect(expected.length).to eq 11
+    end
+
+    it "#by_month(month) filters the collection by month" do
+      top_revenue_earners = sales_analyst.top_revenue_earners(100)
+      expected = sales_analyst.by_month(top_revenue_earners, "January")
+
+      expect(expected.length).to eq 12
+
+      ranked_by_revenue = sales_analyst.merchants_ranked_by_revenue
+      expected = sales_analyst.by_month(ranked_by_revenue, "February")
+
+      expect(expected.length).to eq 40
+
+      ranked_by_revenue = sales_analyst.merchants_ranked_by_revenue
+      expected = sales_analyst.by_month(top_revenue_earners, "March")
+
+      expect(expected.length).to eq 7
+    end
   end
 end

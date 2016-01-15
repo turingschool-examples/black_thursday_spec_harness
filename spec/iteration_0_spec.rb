@@ -237,7 +237,7 @@ RSpec.describe "Iteration 0" do
     it "#created_at returns the Time the item was created" do
       item_one = engine.items.all.first
 
-      expect(item_one.created_at).to eq Time.parse("2016-01-11 09:34:06 UTC")
+      expect(item_one.created_at).to eq Time.parse("2016-01-11 09:34:06 UTCw")
       expect(item_one.created_at.class).to eq Time
     end
 
