@@ -81,11 +81,6 @@ RSpec.describe "Iteration 3" do
       expect(invoice_item.unit_price.class).to eq BigDecimal
     end
 
-    it "#unit_price_to_dollars returns the unit price in terms of dollars" do
-      expect(invoice_item.unit_price_to_dollars).to eq 847.87
-      expect(invoice_item.unit_price_to_dollars.class).to eq Float
-    end
-
     it "#created_at returns a Time instance for the date the invoice item was created" do
       expect(invoice_item.created_at).to eq Time.parse("2012-03-27 14:54:35 UTC")
       expect(invoice_item.created_at.class).to eq Time
@@ -326,7 +321,7 @@ RSpec.describe "Iteration 3" do
 
       expect(invoice.is_paid_in_full?).to eq true
       expect(expected).to eq 3489.56
-      expect(expected.class).to eq Float
+      expect(expected.class).to eq BigDecimal
     end
   end
 end

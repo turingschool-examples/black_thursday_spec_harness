@@ -152,39 +152,39 @@ RSpec.describe "Iteration 0" do
     end
 
     it "#find_all_by_price finds all items mathcing given price" do
-      price = 25.00
+      price = BigDecimal.new(2500)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 79
 
-      price = 10.00
+      price = BigDecimal.new(1000)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 63
 
-      price = 20000.00
+      price = BigDecimal.new(2000000)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 0
     end
 
     it "#find_all_by_price_in_range returns an array of items priced within given range" do
-      range = (1000..1500)
+      range = (100000..150000)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 19
 
-      range = (10..150)
+      range = (1000..15000)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 910
 
-      range = (10..15)
+      range = (1000..1500)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 205
 
-      range = (0..1)
+      range = (0..100)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 6
@@ -232,13 +232,6 @@ RSpec.describe "Iteration 0" do
 
       expect(item_one.unit_price).to eq 1200.0
       expect(item_one.unit_price.class).to eq BigDecimal
-    end
-
-    it "#unit_price_to_dollars returns the unit price in terms of dollars" do
-      item_one = engine.items.all.first
-
-      expect(item_one.unit_price_to_dollars).to eq 12.0
-      expect(item_one.unit_price_to_dollars.class).to eq Float
     end
 
     it "#created_at returns the Time the item was created" do
