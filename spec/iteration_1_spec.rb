@@ -72,7 +72,7 @@ RSpec.describe "Iteration 1" do
     it "#golden_items returns items that are two standard deviations above the average price" do
       expected = sales_analyst.golden_items
 
-      expect(expected.length).to eq 122
+      expect(expected.length).to eq 5
       expect(expected.first.class).to eq Item
     end
   end
