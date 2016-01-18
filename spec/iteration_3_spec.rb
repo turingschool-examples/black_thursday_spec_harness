@@ -320,7 +320,7 @@ RSpec.describe "Iteration 3" do
       expected = invoice.total
 
       expect(invoice.is_paid_in_full?).to eq true
-      expect(expected).to eq 3489.56
+      expect(expected).to eq 21067.77
       expect(expected.class).to eq BigDecimal
     end
   end
