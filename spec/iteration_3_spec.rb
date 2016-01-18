@@ -295,7 +295,7 @@ RSpec.describe "Iteration 3" do
     it "merchant#customers returns related customers" do
       expected = engine.merchants.find_by_id(12334194).customers
 
-      expect(expected.length).to eq 13
+      expect(expected.length).to eq 12
       expect(expected.first.class).to eq Customer
     end
   end
