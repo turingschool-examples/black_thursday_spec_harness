@@ -1,20 +1,22 @@
-## Merchant (and some Customer) Analytics
+## Merchant Analytics
 
 require "spec_helper"
 
 RSpec.describe "Iteration 4" do
+
   let(:sales_analyst) { SalesAnalyst.new(engine) }
+  let(:merchant) { engine.merchants.find_by_id(12335523) }
 
   context "Sales Analyst - Merchant Repository" do
-    it "#merchant_revenue_by_date(date)" do
+    it "#total_revenue_by_date returns total revenue for given date" do
       date = Time.parse("2011-02-27")
-      expected = sales_analyst.merchant_revenue_by_date(date)
+      expected = sales_analyst.total_revenue_by_date(date)
 
-      expect(expected.length).to eq 4
-      expect(expected.first.class).to eq Merchant
+      expect(expected).to eq 91935.673
+      expect(expected.class).to eq BigDecimal
     end
 
-    it "#top_revenue_earners(x) returns the top x merchants ranked by revenue", t:true do
+    it "#top_revenue_earners(x) returns the top x merchants ranked by revenue" do
       expected = sales_analyst.top_revenue_earners(10)
       first = expected.first.revenue
       last = expected.last.revenue
@@ -50,75 +52,77 @@ RSpec.describe "Iteration 4" do
 
       expect(expected.last.id).to eq 12334235
     end
-  end
 
-  context "Sales Analyst - Customer Repository" do
-    it "#top_buyers returns the top x customers that spent the most money" do
-      x = 5
-      expected = sales_analyst.top_buyers(5)
+    it "#merchants_with_pending_invoices returns merchants with pending invoices" do
+      expected = sales_analyst.merchants_with_pending_invoices
 
-      expect(expected.length).to eq 5
-      expect(expected.first.id).to eq 595
-      expect(expected.last.id).to eq 22
-
-      expected.each { |c| expect(c.class).to eq Customer }
+      expect(expected.length).to eq 91
+      expect(expected.first.class).to eq Merchant
     end
 
-    it "#top_merchant_for_customer returns the favorite merchant for given customer" do
-      customer_id = 100
-      expected = sales_analyst.top_merchant_for_customer(customer_id)
+    it "#merchants_with_only_one_item returns merchants with only one item" do
+      expected = sales_analyst.merchants_with_only_one_item
 
-      expect(expected.class).to eq Merchant
-      expect(expected.id).to eq 12336753
+      expect(expected.length).to eq 243
+      expect(expected.first.class).to eq Merchant
     end
 
-    it "#one_time_buyers returns customer with only one transaction" do
-      expected = sales_analyst.one_time_buyers
+    it "#merchants_with_only_one_item_registered_in_month returns merchants with only one invoice in given month" do
+      expected = sales_analyst.merchants_with_only_one_item_registered_in_month("March")
 
-      expect(expected.length).to eq 100
-      expect(expected.first.fully_paid_invoices.length).to eq 1
-      expect(expected.first.class).to eq Customer
-    end
-  end
+      expect(expected.length).to eq 21
+      expect(expected.first.class).to eq Merchant
 
-  context "Sales Analyst - Filters" do
-    it "#by_month filters the collection by month" do
-      top_revenue_earners = sales_analyst.top_revenue_earners(100)
-      expected = sales_analyst.by_month(top_revenue_earners, "January")
+      expected = sales_analyst.merchants_with_only_one_item_registered_in_month("June")
 
-      expect(expected.length).to eq 12
-
-      ranked_by_revenue = sales_analyst.merchants_ranked_by_revenue
-      expected = sales_analyst.by_month(ranked_by_revenue, "February")
-
-      expect(expected.length).to eq 40
-
-      ranked_by_revenue = sales_analyst.merchants_ranked_by_revenue
-      expected = sales_analyst.by_month(top_revenue_earners, "March")
-
-      expect(expected.length).to eq 7
+      expect(expected.length).to eq 18
+      expect(expected.first.class).to eq Merchant
     end
 
-    it "#top_percent returns the top xx percent of the collection" do
-      top_revenue_earners = sales_analyst.top_revenue_earners
-      expected = sales_analyst.top_percent(top_revenue_earners, 0.5)
+    it "#revenue_by_merchant returns the revenue for given merchant" do
+      expected = sales_analyst.revenue_by_merchant(12334194)
 
-      expect(expected.length).to eq 10
+      expect(expected).to eq 17292.25
+      expect(expected.class).to eq BigDecimal
+    end
 
-      top_revenue_earners = sales_analyst.top_revenue_earners(100)
-      expected = sales_analyst.top_percent(top_revenue_earners, 0.1)
+    it "#most_sold_item_for_merchant returns the most sold item" do
+      merchant_id = 12334189
+      expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
 
-      expect(expected.length).to eq 10
+      expect(expected.length).to eq 2
 
-      top_revenue_earners = sales_analyst.top_revenue_earners(90)
-      expected = sales_analyst.top_percent(top_revenue_earners, 0.15)
+      expect(expected.first.id).to eq 263446647
+      expect(expected.first.name).to eq "NYC Water Tanks"
+      expect(expected.first.class).to eq Item
 
-      expect(expected.length).to eq 14
+      expect(expected.last.id).to eq 263524984
+      expect(expected.last.name).to eq "Adult Princess Leia Hat"
+      expect(expected.last.class).to eq Item
 
-      top_revenue_earners = sales_analyst.top_revenue_earners(76)
-      expected = sales_analyst.top_percent(top_revenue_earners, 0.14)
+      merchant_id = 12334768
+      expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
 
-      expect(expected.length).to eq 11
+      expect(expected.length).to eq 8
+
+      merchant_id = 12337105
+      expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
+
+      expect(expected.length).to eq 6
+    end
+
+    it "#best_item_for_merchant returns the item which generated most revenue for the given merchant" do
+      merchant_id = 12334189
+      expected = sales_analyst.best_item_for_merchant(merchant_id)
+
+      expect(expected.id).to eq 263516130
+      expect(expected.class).to eq Item
+
+      merchant_id = 12337105
+      expected = sales_analyst.best_item_for_merchant(merchant_id)
+
+      expect(expected.id).to eq 263553624
+      expect(expected.class).to eq Item
     end
   end
 end
