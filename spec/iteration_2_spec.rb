@@ -155,11 +155,11 @@ RSpec.describe "Iteration 2" do
       expect(expected.first.class).to eq Merchant
     end
 
-    it "#top_days_by_invoice_count returns invoices with an invoice item count more than one standard deviation above the mean" do
+    it "#top_days_by_invoice_count returns days with an invoice count more than one standard deviation above the mean" do
       expected = sales_analyst.top_days_by_invoice_count
 
       expect(expected.length).to eq 1
-      expect(expected.first.class).to eq Symbol
+      expect(expected.first.class).to eq String
     end
 
     it "#invoice_status returns the percentage of invoices with given status" do
