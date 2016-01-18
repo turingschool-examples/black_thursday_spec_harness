@@ -302,7 +302,6 @@ RSpec.describe "Iteration 3" do
 
   context "Business Intelligence" do
     it "invoice#is_paid_in_full? returns true if the invoice is paid in full" do
-      require "pry"; binding.pry
       expected = engine.invoices.find_by_id(1).is_paid_in_full?
       expect(expected).to eq true
 
