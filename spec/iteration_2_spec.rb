@@ -159,7 +159,7 @@ RSpec.describe "Iteration 2" do
       expected = sales_analyst.top_days_by_invoice_count
 
       expect(expected.length).to eq 1
-      expect(expected.first).to eq "Monday"
+      expect(expected.first).to eq "Wednesday"
       expect(expected.first.class).to eq String
     end
 
