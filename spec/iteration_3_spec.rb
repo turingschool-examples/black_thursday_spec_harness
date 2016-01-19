@@ -307,11 +307,11 @@ RSpec.describe "Iteration 3" do
 
       expected = engine.invoices.find_by_id(200).is_paid_in_full?
       expect(expected).to eq true
-
-      expected = engine.invoices.find_by_id(1752).is_paid_in_full?
+      
+      expected = engine.invoices.find_by_id(203).is_paid_in_full?
       expect(expected).to eq false
 
-      expected = engine.invoices.find_by_id(1445).is_paid_in_full?
+      expected = engine.invoices.find_by_id(204).is_paid_in_full?
       expect(expected).to eq false
     end
 

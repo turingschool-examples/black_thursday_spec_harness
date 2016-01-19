@@ -12,7 +12,7 @@ RSpec.describe "Iteration 4" do
       date = Time.parse("2011-02-27")
       expected = sales_analyst.total_revenue_by_date(date)
 
-      expect(expected).to eq 91935.673
+      expect(expected).to eq 334396.34
       expect(expected.class).to eq BigDecimal
     end
 
@@ -24,10 +24,10 @@ RSpec.describe "Iteration 4" do
       expect(expected.length).to eq 10
 
       expect(expected.first.class).to eq Merchant
-      expect(expected.first.id).to eq 12335938
+      expect(expected.first.id).to eq 12334634
 
       expect(expected.last.class).to eq Merchant
-      expect(expected.last.id).to eq 12334280
+      expect(expected.last.id).to eq 12335747
     end
 
     it "#top_revenue_earners returns by default the top 20 merchants ranked by revenue if no argument is given" do
@@ -38,25 +38,25 @@ RSpec.describe "Iteration 4" do
       expect(expected.length).to eq 20
 
       expect(first.class).to eq Merchant
-      expect(first.id).to eq 12335938
+      expect(first.id).to eq 12334634
 
       expect(last.class).to eq Merchant
-      expect(last.id).to eq 12334257
+      expect(last.id).to eq 12334159
     end
 
     it "#merchants_ranked_by_revenue returns the merchants ranked by total revenue" do
       expected = sales_analyst.merchants_ranked_by_revenue
 
       expect(expected.first.class).to eq Merchant
-      expect(expected.first.id).to eq 12335938
+      expect(expected.first.id).to eq 12334634
 
-      expect(expected.last.id).to eq 12334235
+      expect(expected.last.id).to eq 12334193
     end
 
     it "#merchants_with_pending_invoices returns merchants with pending invoices" do
       expected = sales_analyst.merchants_with_pending_invoices
 
-      expect(expected.length).to eq 91
+      expect(expected.length).to eq 9
       expect(expected.first.class).to eq Merchant
     end
 
@@ -82,7 +82,7 @@ RSpec.describe "Iteration 4" do
     it "#revenue_by_merchant returns the revenue for given merchant" do
       expected = sales_analyst.revenue_by_merchant(12334194)
 
-      expect(expected).to eq 17292.25
+      expect(expected).to eq BigDecimal.new(expected)
       expect(expected.class).to eq BigDecimal
     end
 
