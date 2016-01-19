@@ -11,8 +11,8 @@ RSpec.describe "Iteration 5" do
       expected = sales_analyst.top_buyers(5)
 
       expect(expected.length).to eq 5
-      expect(expected.first.id).to eq 595
-      expect(expected.last.id).to eq 22
+      expect(expected.first.id).to eq 313
+      expect(expected.last.id).to eq 478
 
       expected.each { |c| expect(c.class).to eq Customer }
     end
@@ -21,8 +21,8 @@ RSpec.describe "Iteration 5" do
       expected = sales_analyst.top_buyers
 
       expect(expected.length).to eq 20
-      expect(expected.first.id).to eq 595
-      expect(expected.last.id).to eq 258
+      expect(expected.first.id).to eq 313
+      expect(expected.last.id).to eq 250
 
       expected.each { |c| expect(c.class).to eq Customer }
     end
@@ -38,7 +38,7 @@ RSpec.describe "Iteration 5" do
     it "#one_time_buyers returns customers with only one invoice" do
       expected = sales_analyst.one_time_buyers
 
-      expect(expected.length).to eq 100
+      expect(expected.length).to eq 150
       expect(expected.first.fully_paid_invoices.length).to eq 1
       expect(expected.first.class).to eq Customer
     end
@@ -46,13 +46,10 @@ RSpec.describe "Iteration 5" do
     it "#one_time_buyers_item returns the items which most one_time_buyers bought" do
       expected = sales_analyst.one_time_buyers_item
 
-      expect(expected.length).to eq 2
+      expect(expected.length).to eq 1
 
       expect(expected.first.id).to eq 263519844
-      expect(expected.last.id).to eq 263405559
-
       expect(expected.first.class).to eq Item
-      expect(expected.last.class).to eq Item
     end
 
     it "#most_recently_bought_items returns the items which the given customer bought most recently" do
@@ -76,8 +73,8 @@ RSpec.describe "Iteration 5" do
     it "#customers_with_unpaid_invoices returns customers with unpaid invoices" do
       expected = sales_analyst.customers_with_unpaid_invoices
 
-      expect(expected.length).to eq 503
-      expect(expected.first.id).to eq 2
+      expect(expected.length).to eq 786
+      expect(expected.first.id).to eq 1
       expect(expected.last.id).to eq 999
       expect(expected.first.class).to eq Customer
     end
@@ -85,8 +82,8 @@ RSpec.describe "Iteration 5" do
     it "#best_invoice_by_revenue returns the invoice with the highest dollar amount" do
       expected = sales_analyst.best_invoice_by_revenue
 
-      expect(expected.id).to eq 4589
-      expect(expected.total).to eq 7191.3
+      expect(expected.id).to eq 3394
+      expect(expected.total).to eq 47877.97
       expect(expected.class).to eq Invoice
     end
 
