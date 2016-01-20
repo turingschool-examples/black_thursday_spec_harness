@@ -12,7 +12,7 @@ RSpec.describe "Iteration 4" do
       date = Time.parse("2011-02-27")
       expected = sales_analyst.total_revenue_by_date(date)
 
-      expect(expected).to eq 334396.34
+      expect(expected).to eq 13010.46
       expect(expected.class).to eq BigDecimal
     end
 
