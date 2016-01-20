@@ -9,7 +9,7 @@ RSpec.describe "Iteration 4" do
 
   context "Sales Analyst - Merchant Repository" do
     it "#total_revenue_by_date returns total revenue for given date" do
-      date = Time.parse("2011-02-27")
+      date = Time.parse("2009-02-07")
       expected = sales_analyst.total_revenue_by_date(date)
 
       expect(expected).to eq 13010.46
