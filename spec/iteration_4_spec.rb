@@ -18,16 +18,16 @@ RSpec.describe "Iteration 4" do
 
     it "#top_revenue_earners(x) returns the top x merchants ranked by revenue" do
       expected = sales_analyst.top_revenue_earners(10)
-      first = expected.first.revenue
-      last = expected.last.revenue
+      first = expected.first
+      last = expected.last
 
       expect(expected.length).to eq 10
 
-      expect(expected.first.class).to eq Merchant
-      expect(expected.first.id).to eq 12334634
+      expect(first.class).to eq Merchant
+      expect(first.id).to eq 12334634
 
-      expect(expected.last.class).to eq Merchant
-      expect(expected.last.id).to eq 12335747
+      expect(last.class).to eq Merchant
+      expect(last.id).to eq 12335747
     end
 
     it "#top_revenue_earners returns by default the top 20 merchants ranked by revenue if no argument is given" do
