@@ -9,7 +9,7 @@ RSpec.describe "Iteration 4" do
 
   context "Sales Analyst - Merchant Repository" do
     it "#total_revenue_by_date returns total revenue for given date" do
-      date = Time.parse("2011-02-27")
+      date = Time.parse("2009-02-07")
       expected = sales_analyst.total_revenue_by_date(date)
 
       expect(expected).to eq 13010.46
@@ -18,16 +18,16 @@ RSpec.describe "Iteration 4" do
 
     it "#top_revenue_earners(x) returns the top x merchants ranked by revenue" do
       expected = sales_analyst.top_revenue_earners(10)
-      first = expected.first.revenue
-      last = expected.last.revenue
+      first = expected.first
+      last = expected.last
 
       expect(expected.length).to eq 10
 
-      expect(expected.first.class).to eq Merchant
-      expect(expected.first.id).to eq 12334634
+      expect(first.class).to eq Merchant
+      expect(first.id).to eq 12334634
 
-      expect(expected.last.class).to eq Merchant
-      expect(expected.last.id).to eq 12335747
+      expect(last.class).to eq Merchant
+      expect(last.id).to eq 12335747
     end
 
     it "#top_revenue_earners returns by default the top 20 merchants ranked by revenue if no argument is given" do
@@ -89,16 +89,12 @@ RSpec.describe "Iteration 4" do
     it "#most_sold_item_for_merchant returns the most sold item" do
       merchant_id = 12334189
       expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
+      
+      expect(expected.length).to eq 1
 
-      expect(expected.length).to eq 2
-
-      expect(expected.first.id).to eq 263446647
-      expect(expected.first.name).to eq "NYC Water Tanks"
+      # expect(expected.first.id).to eq 263446647
+      expect(expected.first.name).to eq "Stirling Silver Filigree Drop Hoop Earrings"
       expect(expected.first.class).to eq Item
-
-      expect(expected.last.id).to eq 263524984
-      expect(expected.last.name).to eq "Adult Princess Leia Hat"
-      expect(expected.last.class).to eq Item
 
       merchant_id = 12334768
       expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
