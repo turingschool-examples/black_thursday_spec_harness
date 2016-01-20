@@ -56,7 +56,7 @@ RSpec.describe "Iteration 4" do
     it "#merchants_with_pending_invoices returns merchants with pending invoices" do
       expected = sales_analyst.merchants_with_pending_invoices
 
-      expect(expected.length).to eq 9
+      expect(expected.length).to eq 467
       expect(expected.first.class).to eq Merchant
     end
 
