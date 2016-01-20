@@ -116,7 +116,7 @@ RSpec.describe "Iteration 4" do
       merchant_id = 12337105
       expected = sales_analyst.best_item_for_merchant(merchant_id)
 
-      expect(expected.id).to eq 263553624
+      expect(expected.id).to eq 263463003
       expect(expected.class).to eq Item
     end
   end
