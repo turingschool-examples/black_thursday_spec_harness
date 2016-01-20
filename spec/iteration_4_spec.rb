@@ -12,7 +12,7 @@ RSpec.describe "Iteration 4" do
       date = Time.parse("2009-02-07")
       expected = sales_analyst.total_revenue_by_date(date)
 
-      expect(expected).to eq 13010.46
+      expect(expected).to eq 21067.77
       expect(expected.class).to eq BigDecimal
     end
 
@@ -89,7 +89,7 @@ RSpec.describe "Iteration 4" do
     it "#most_sold_item_for_merchant returns the most sold item" do
       merchant_id = 12334189
       expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
-      
+      require "pry"; binding.pry
       expect(expected.length).to eq 1
 
       # expect(expected.first.id).to eq 263446647
