@@ -89,21 +89,21 @@ RSpec.describe "Iteration 4" do
     it "#most_sold_item_for_merchant returns the most sold item" do
       merchant_id = 12334189
       expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
-      expect(expected.length).to eq 1
+      expect(expected.id).to eq 263524984
 
       # expect(expected.first.id).to eq 263446647
-      expect(expected.first.name).to eq "Adult Princess Leia Hat"
-      expect(expected.first.class).to eq Item
+      expect(expected.name).to eq "Adult Princess Leia Hat"
+      expect(expected.class).to eq Item
 
       merchant_id = 12334768
       expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
 
-      expect(expected.length).to eq 1
+      expect(expected.id).to eq 263549386
 
       merchant_id = 12337105
       expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
 
-      expect(expected.length).to eq 1
+      expect(expected.id).to eq 263540734
     end
 
     it "#best_item_for_merchant returns the item which generated most revenue for the given merchant" do
