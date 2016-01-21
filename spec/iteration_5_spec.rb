@@ -56,9 +56,9 @@ RSpec.describe "Iteration 5" do
       customer_id = 400
       expected = sales_analyst.most_recently_bought_items(customer_id)
 
-      expect(expected.length).to eq 3
-      expect(expected.first.id).to eq 263549078
-      expect(expected.first.name).to eq "Stone of Magic"
+      expect(expected.length).to eq 6
+      expect(expected.first.id).to eq 263440673
+      expect(expected.first.name).to eq "David Búho - Archival Print"
       expect(expected.first.class).to eq Item
 
       customer_id = 890
