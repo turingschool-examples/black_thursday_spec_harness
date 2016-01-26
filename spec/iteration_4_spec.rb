@@ -48,9 +48,9 @@ RSpec.describe "Iteration 4" do
       expected = sales_analyst.merchants_ranked_by_revenue
 
       expect(expected.first.class).to eq Merchant
-      expect(expected.first.id).to eq 12334634
 
-      expect(expected.last.id).to eq 12334193
+      expect(expected.first.id).to eq 12334634
+      expect(expected.last.id).to eq 12336175
     end
 
     it "#merchants_with_pending_invoices returns merchants with pending invoices" do
@@ -89,8 +89,8 @@ RSpec.describe "Iteration 4" do
     it "#most_sold_item_for_merchant returns the most sold item" do
       merchant_id = 12334189
       expected = sales_analyst.most_sold_item_for_merchant(merchant_id)
-      expect(expected.map(&:id).include?(263524984)).to eq true
 
+      expect(expected.map(&:id).include?(263524984)).to eq true
       expect(expected.map(&:name).include?("Adult Princess Leia Hat")).to eq true
       expect(expected.first.class).to eq Item
 

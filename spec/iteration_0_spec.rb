@@ -6,7 +6,7 @@ RSpec.describe "Iteration 0" do
   context "Merchant Repository" do
     it "#all returns an array of all merchant instances" do
       expected = engine.merchants.all
-      expect(expected.count).to eq 476
+      expect(expected.count).to eq 475
     end
 
     it "#find_by_id finds a merchant by id" do
@@ -51,27 +51,13 @@ RSpec.describe "Iteration 0" do
       expect(expected).to eq nil
     end
 
-    it "#find_all_by_name finds all matching merchants by name" do
-      name = "CJsDecor"
-      expected = engine.merchants.find_all_by_name(name)
+    it "#find_all_by_name finds all merchants matching the given name fragment" do
+      fragment = "style"
+      expected = engine.merchants.find_all_by_name(fragment)
 
-      expect(expected.length).to eq 2
-      expect(expected.first.name).to eq name
-
-      expect(expected.first.id).to eq 12337411
-      expect(expected.last.id).to eq 12337412
-    end
-
-    it "#find_all_by_name is a case insensitive search" do
-      name = "CJSDECOR"
-      expected = engine.merchants.find_all_by_name(name)
-
-      expect(expected.size).to eq 2
-
-      name = "cjsdecor"
-      expected = engine.merchants.find_all_by_name(name)
-
-      expect(expected.size).to eq 2
+      expect(expected.length).to eq 3
+      expect(expected.map(&:name).include?("justMstyle")).to eq true
+      expect(expected.map(&:id).include?(12337211)).to eq true
     end
 
     it "#find_all_by_name returns an empty array if there are no matches" do
@@ -84,11 +70,8 @@ RSpec.describe "Iteration 0" do
 
   context "Merchant" do
     it "#id returns the merchant id" do
-      merchant_one = engine.merchants.all.first
-      expect(merchant_one.id).to eq 12334105
-
-      merchant_two = engine.merchants.all.last
-      expect(merchant_two.id).to eq 12337412
+      merchant = engine.merchants.all.first
+      expect(merchant.id).to eq 12334105
     end
 
     it "#name returns the merchant name" do
@@ -152,42 +135,42 @@ RSpec.describe "Iteration 0" do
     end
 
     it "#find_all_by_price finds all items mathcing given price" do
-      price = BigDecimal.new(2500)
+      price = BigDecimal.new(25)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 79
 
-      price = BigDecimal.new(1000)
+      price = BigDecimal.new(10)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 63
 
-      price = BigDecimal.new(2000000)
+      price = BigDecimal.new(20000)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 0
     end
 
     it "#find_all_by_price_in_range returns an array of items priced within given range" do
-      range = (100000..150000)
+      range = (1000.00..1500.00)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 19
 
-      range = (1000..15000)
+      range = (10.00..150.00)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 910
 
-      range = (1000..1500)
+      range = (10.00..15.00)
       expected = engine.items.find_all_by_price_in_range(range)
 
       expect(expected.length).to eq 205
 
-      range = (0..100)
+      range = (0..10.0)
       expected = engine.items.find_all_by_price_in_range(range)
 
-      expect(expected.length).to eq 6
+      expect(expected.length).to eq 302
     end
 
     it "#find_all_by_merchant_id returns an array of items associated with given merchant id" do
@@ -230,7 +213,7 @@ RSpec.describe "Iteration 0" do
     it "#unit_price returns the unit price" do
       item_one = engine.items.all.first
 
-      expect(item_one.unit_price).to eq 1200.0
+      expect(item_one.unit_price).to eq 12.00
       expect(item_one.unit_price.class).to eq BigDecimal
     end
 

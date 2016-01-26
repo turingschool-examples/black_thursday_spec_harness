@@ -2,10 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe "Iteration 5" do
+RSpec.describe "iteration 5" do
   let(:sales_analyst) { SalesAnalyst.new(engine) }
 
-  context "Sales Analyst - Customer Repository" do
+  context "sales analyst - customer repository" do
     it "#top_buyers returns the top x customers that spent the most money" do
       x = 5
       expected = sales_analyst.top_buyers(5)
@@ -31,8 +31,8 @@ RSpec.describe "Iteration 5" do
       customer_id = 100
       expected = sales_analyst.top_merchant_for_customer(customer_id)
 
-      expect(expected.class).to eq Merchant
-      expect(expected.id).to eq 12336753
+      expect(expected.first.class).to eq Merchant
+      expect(expected.first.id).to eq 12336753
     end
 
     it "#one_time_buyers returns customers with only one invoice" do
@@ -52,21 +52,21 @@ RSpec.describe "Iteration 5" do
       expect(expected.first.class).to eq Item
     end
 
-    it "#most_recently_bought_items returns the items which the given customer bought most recently" do
+    it "#items_bought_in_year returns the items which the given customer bought in the given year" do
       customer_id = 400
-      expected = sales_analyst.most_recently_bought_items(customer_id)
+      year = 2000
+      expected = sales_analyst.items_bought_in_year(customer_id, year)
 
-      expect(expected.length).to eq 6
-      expect(expected.first.id).to eq 263440673
-      expect(expected.first.name).to eq "David Búho - Archival Print"
-      expect(expected.first.class).to eq Item
+      expect(expected.length).to eq 0
+      expect(expected.class).to eq Array
 
-      customer_id = 890
-      expected = sales_analyst.most_recently_bought_items(customer_id)
+      customer_id = 400
+      year = 2002
+      expected = sales_analyst.items_bought_in_year(customer_id, year)
 
-      expect(expected.length).to eq 7
-      expect(expected.first.id).to eq 263516596
-      expect(expected.first.name).to eq "Multilayer Tulle Skirt, Bridal Skirt"
+      expect(expected.length).to eq 2
+      expect(expected.first.id).to eq 263549742
+      expect(expected.first.name).to eq "Necklace: V Tube"
       expect(expected.first.class).to eq Item
     end
 

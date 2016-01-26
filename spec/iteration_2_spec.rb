@@ -130,14 +130,14 @@ RSpec.describe "Iteration 2" do
     it "#average_invoices_per_merchant returns average number of invoices per merchant" do
       expected = sales_analyst.average_invoices_per_merchant
 
-      expect(expected).to eq 10.47
+      expect(expected).to eq 10.49
       expect(expected.class).to eq Float
     end
 
     it "#average_invoices_per_merchant_standard_deviation returns the standard deviation" do
       expected = sales_analyst.average_invoices_per_merchant_standard_deviation
 
-      expect(expected).to eq 3.32
+      expect(expected).to eq 3.29
       expect(expected.class).to eq Float
     end
 
@@ -151,7 +151,7 @@ RSpec.describe "Iteration 2" do
     it "#bottom_merchants_by_invoice_count returns merchants that are two standard deviations below the mean" do
       expected = sales_analyst.bottom_merchants_by_invoice_count
 
-      expect(expected.length).to eq 5
+      expect(expected.length).to eq 4
       expect(expected.first.class).to eq Merchant
     end
 

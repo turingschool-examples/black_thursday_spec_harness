@@ -77,7 +77,7 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#unit_price returns the unit price" do
-      expect(invoice_item.unit_price).to eq 84787.0
+      expect(invoice_item.unit_price).to eq 847.87
       expect(invoice_item.unit_price.class).to eq BigDecimal
     end
 
@@ -307,7 +307,7 @@ RSpec.describe "Iteration 3" do
 
       expected = engine.invoices.find_by_id(200).is_paid_in_full?
       expect(expected).to eq true
-      
+
       expected = engine.invoices.find_by_id(203).is_paid_in_full?
       expect(expected).to eq false
 
