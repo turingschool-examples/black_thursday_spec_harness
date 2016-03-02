@@ -134,7 +134,7 @@ RSpec.describe "Iteration 0" do
       expect(expected.length).to eq 0
     end
 
-    it "#find_all_by_price finds all items mathcing given price" do
+    it "#find_all_by_price finds all items matching given price" do
       price = BigDecimal.new(25)
       expected = engine.items.find_all_by_price(price)
 
