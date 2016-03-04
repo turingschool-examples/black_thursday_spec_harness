@@ -27,7 +27,7 @@ end
 require 'date'
 
 # Must override #inspect on repositories (more on this at https://github.com/rspec/rspec-core/issues/1631)
-all_repositories = Object.constants.grep(/Repository$/).map { |name| Object.const_get name }
+all_repositories = Object.constants.grep(/Repository$/).map { |name| Object.const_get name }.select { |r| r.is_a?(Class) }
 bad_repositories = all_repositories.select { |repo| repo.instance_method(:inspect).owner == Kernel }
 if bad_repositories.any?
   die_because.call <<-MESSAGE.gsub(/^ {4}/, '')
