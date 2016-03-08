@@ -48,7 +48,7 @@ RSpec.describe "iteration 5" do
 
       expect(expected.length).to eq 4
 
-      expect(expected.map(&:id)).to eq [1,2,3,4]
+      expect(expected.map(&:id)).to eq [263512652, 263401045, 263410155, 263434165]
       expect(expected.first.class).to eq Item
     end
 
