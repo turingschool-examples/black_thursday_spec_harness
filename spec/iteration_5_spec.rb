@@ -43,12 +43,12 @@ RSpec.describe "iteration 5" do
       expect(expected.first.class).to eq Customer
     end
 
-    it "#one_time_buyers_item returns the items which most one_time_buyers bought" do
-      expected = sales_analyst.one_time_buyers_item
+    it "#one_time_buyers_item returns all the items which one_time_buyers bought" do
+      expected = sales_analyst.one_time_buyers_items
 
-      expect(expected.length).to eq 1
+      expect(expected.length).to eq 4
 
-      expect(expected.first.id).to eq 263518806
+      expect(expected.map(&:id)).to eq [1,2,3,4]
       expect(expected.first.class).to eq Item
     end
 
