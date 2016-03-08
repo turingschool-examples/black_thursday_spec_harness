@@ -31,8 +31,8 @@ RSpec.describe "iteration 5" do
       customer_id = 100
       expected = sales_analyst.top_merchant_for_customer(customer_id)
 
-      expect(expected.first.class).to eq Merchant
-      expect(expected.first.id).to eq 12336753
+      expect(expected.class).to eq Merchant
+      expect(expected.id).to eq 12336753
     end
 
     it "#one_time_buyers returns customers with only one invoice" do
