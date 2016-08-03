@@ -48,7 +48,7 @@ RSpec.describe "iteration 5" do
 
       expect(expected.length).to eq 1
 
-      expect(expected.first.id).to eq 263443421
+      expect(expected.first.id).to eq 263519844
       expect(expected.first.class).to eq Item
     end
 
