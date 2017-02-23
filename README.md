@@ -29,3 +29,8 @@ To test your implementation against the evaluation specs, run:
 
     $ bundle exec rake spec
 
+    $ bundle exec rspec spec/iteration_0_spec.rb
+                            ^^^^^^^^
+                              path
+
+using rspec will help when needing to narrow down tests from the spec harness.  You can change the path after you run the spec harness, with something like this ./spec/iteration_0_spec.rb:123 in place of the path, will help you single out the tests from the collection that is ran.
