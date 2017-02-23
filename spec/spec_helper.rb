@@ -31,10 +31,10 @@ all_repositories = Object.constants.grep(/Repository$/).map { |name| Object.cons
 bad_repositories = all_repositories.select { |repo| repo.instance_method(:inspect).owner == Kernel }
 if bad_repositories.any?
   die_because.call <<-MESSAGE.gsub(/^ {4}/, '')
-    \e[33mTHESE REPOSITORIES HAVE ISSUES: #{bad_repositories.inspect}\e[31m
+  \e[33mTHESE REPOSITORIES HAVE ISSUES: #{bad_repositories.inspect}\e[31m
 
-    You need to override inspect on your repositories.
-    If you don't, the default inspect will try try to create a string so large that ruby will stop dead.
+     You need to override inspect on your repositories.
+     If you don't, the default inspect will try try to create a string so large that ruby will stop dead.
     This is generally true of anything that might try to print out all the rows and associated rows.
 
     If your test suite suddenly stops for over 2 minutes (these tests are integration, they are slow)
@@ -64,6 +64,8 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.before(:suite) do
+    require 'simplecov'
+    SimpleCov.start
     BlackThursdaySpecHelpers.engine = SalesEngine.from_csv({
       items: File.join(spec_harness_root, 'csvs', 'items.csv'),
       merchants: File.join(spec_harness_root, 'csvs', 'merchants.csv'),
