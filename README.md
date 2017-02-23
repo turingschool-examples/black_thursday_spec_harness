@@ -29,3 +29,8 @@ To test your implementation against the evaluation specs, run:
 
     $ bundle exec rake spec
 
+To test your implementation against a single iteration of the evaluation specs, run:
+
+    $ bundle exec rspec spec/iteration_#_spec.rb
+
+where # is the iteration number.
