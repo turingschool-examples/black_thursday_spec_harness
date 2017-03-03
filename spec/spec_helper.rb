@@ -64,8 +64,6 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.before(:suite) do
-    require 'simplecov'
-    SimpleCov.start
     BlackThursdaySpecHelpers.engine = SalesEngine.from_csv({
       items: File.join(spec_harness_root, 'csvs', 'items.csv'),
       merchants: File.join(spec_harness_root, 'csvs', 'merchants.csv'),
