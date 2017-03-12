@@ -43,12 +43,11 @@ RSpec.describe "iteration 5" do
       expect(expected.first.class).to eq Customer
     end
 
-    it "#one_time_buyers_item returns all the items which one_time_buyers bought" do
-      expected = sales_analyst.one_time_buyers_items
+    it "#one_time_buyers_top_items returns all the items which one_time_buyers bought" do
+      expected = sales_analyst.one_time_buyers_top_items
 
-      expect(expected.length).to eq 4
-
-      expect(expected.map(&:id)).to eq [263512652, 263401045, 263410155, 263434165]
+      expect(expected.length).to eq 1
+      expect(expected.map(&:id)).to eq [263518806]
       expect(expected.first.class).to eq Item
     end
 
@@ -67,6 +66,15 @@ RSpec.describe "iteration 5" do
       expect(expected.length).to eq 2
       expect(expected.first.id).to eq 263549742
       expect(expected.first.name).to eq "Necklace: V Tube"
+      expect(expected.first.class).to eq Item
+    end
+
+    it "#highest_volume_items returns an array of the item(s) purchased the most times by a customer" do
+      expected = sales_analyst.highest_volume_items(200)
+
+      expect(expected.length).to eq 6
+      expect(expected.first.id).to eq 263420195
+      expect(expected.last.id).to eq 263448547
       expect(expected.first.class).to eq Item
     end
 
