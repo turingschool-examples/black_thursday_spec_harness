@@ -76,6 +76,30 @@ RSpec.describe "Iteration 0" do
       expect(expected.name).to eq "Turing School of Software and Design"
     end
 
+    it "#update updates a merchant" do
+      attributes = {
+        name: "TSSD"
+      }
+      engine.merchants.update(12337412, attributes)
+      expected = engine.merchants.find_by_id(12337412)
+      expect(expected.name).to eq "TSSD"
+      expected = engine.merchants.find_by_name("Turing School of Software and Design")
+      expect(expected).to eq nil
+    end
+
+    it "#update cannot update id" do
+      attributes = {
+        id: 13000000
+      }
+      engine.items.update(12337412, attributes)
+      expected = engine.items.find_by_id(13000000)
+      expect(expected).to eq nil
+    end
+
+    it "#update on unknown merchant does nothing" do
+      engine.merchants.update(13000000, {})
+    end
+
     it "#delete deletes the specified merchant" do
       engine.merchants.delete(12337412)
       expected = engine.merchants.find_by_id(12337412)
@@ -85,22 +109,6 @@ RSpec.describe "Iteration 0" do
     it "#delete on unknown merchant does nothing" do
       engine.merchants.delete(12337412)
     end
-
-    it "#update updates a merchant" do
-      attributes = {
-        name: "Turing School of Software and Design"
-      }
-      engine.merchants.update(12336189, attributes)
-      expected = engine.merchants.find_by_id(12336189)
-      expect(expected.name).to eq "Turing School of Software and Design"
-      expected = engine.merchants.find_by_name("Bohopieces")
-      expect(expected).to eq nil
-    end
-
-    it "#update on unknown merchant does nothing" do
-      engine.merchants.update(12337412, {})
-    end
-
   end
 
   context "Merchant" do
@@ -220,18 +228,48 @@ RSpec.describe "Iteration 0" do
       expect(expected.length).to eq 2
     end
 
-
     it "#create creates a new item instance" do
       attributes = {
         name: "Capita Defenders of Awesome 2018",
         description: "This board both rips and shreds",
-        unit_price: 39999,
+        unit_price: BigDecimal.new(399.99, 5),
         created_at: Time.now,
-        updated_at: Time.now
+        updated_at: Time.now,
+        merchant_id: 25
       }
       engine.items.create(attributes)
       expected = engine.items.find_by_id(263567475)
       expect(expected.name).to eq "Capita Defenders of Awesome 2018"
+    end
+
+    it "#update updates an item" do
+      original_time = engine.items.find_by_id(263567475).updated_at
+      attributes = {
+        unit_price: BigDecimal.new(379.99, 5)
+      }
+      engine.items.update(263567475, attributes)
+      expected = engine.items.find_by_id(263567475)
+      expect(expected.unit_price).to eq 379.99
+      expect(expected.name).to eq "Capita Defenders of Awesome 2018"
+      expect(expected.updated_at).to be > original_time
+    end
+
+    it "#update cannot update id, created_at, or merchant_id" do
+      attributes = {
+        id: 270000000,
+        created_at: Time.now,
+        merchant_id: 1
+      }
+      engine.items.update(263567475, attributes)
+      expected = engine.items.find_by_id(270000000)
+      expect(expected).to eq nil
+      expected = engine.items.find_by_id(263567475)
+      expect(expected.created_at).not_to eq attributes[:created_at]
+      expect(expected.merchant_id).not_to eq attributes[:merchant_id]
+    end
+
+    it "#update on unknown item does nothing" do
+      engine.items.update(270000000, {})
     end
 
     it "#delete deletes the specified item" do
@@ -240,28 +278,9 @@ RSpec.describe "Iteration 0" do
       expect(expected).to eq nil
     end
 
-    it "#delete on unknown id does nothing" do
-      engine.items.delete(263567476)
+    it "#delete on unknown item does nothing" do
+      engine.items.delete(270000000)
     end
-
-    it "#update updates an item" do
-      original_time = engine.items.find_by_id(263397059).updated_at
-      attributes = {
-        name: "Smelly Stuff"
-      }
-      engine.items.update(263397059, attributes)
-      expected = engine.items.find_by_id(263397059)
-      expect(expected.name).to eq "Smelly Stuff"
-      expect(expected.unit_price).to eq 130.0
-      expect(expected.updated_at).to be > original_time
-      expected = engine.items.find_by_name("Etre ailleurs")
-      expect(expected).to eq nil
-    end
-
-    it "#update on unknown id does nothing" do
-      engine.items.update(263567476, {})
-    end
-
   end
 
   context "Item" do
