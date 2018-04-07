@@ -64,8 +64,43 @@ RSpec.describe "Iteration 0" do
       name = "Turing School of Software and Design"
       expected = engine.merchants.find_all_by_name(name)
 
-      expect(expected.size).to eq 0
+      expect(expected).to eq []
     end
+
+    it "#create creates a new merchant instance" do
+      attributes = {
+        name: "Turing School of Software and Design"
+      }
+      engine.merchants.create(attributes)
+      expected = engine.merchants.find_by_id(12337412)
+      expect(expected.name).to eq "Turing School of Software and Design"
+    end
+
+    it "#delete deletes the specified merchant" do
+      engine.merchants.delete(12337412)
+      expected = engine.merchants.find_by_id(12337412)
+      expect(expected).to eq nil
+    end
+
+    it "#delete on unknown merchant does nothing" do
+      engine.merchants.delete(12337412)
+    end
+
+    it "#update updates a merchant" do
+      attributes = {
+        name: "Turing School of Software and Design"
+      }
+      engine.merchants.update(12336189, attributes)
+      expected = engine.merchants.find_by_id(12336189)
+      expect(expected.name).to eq "Turing School of Software and Design"
+      expected = engine.merchants.find_by_name("Bohopieces")
+      expect(expected).to eq nil
+    end
+
+    it "#update on unknown merchant does nothing" do
+      engine.merchants.update(12337412, {})
+    end
+
   end
 
   context "Merchant" do
@@ -184,6 +219,49 @@ RSpec.describe "Iteration 0" do
 
       expect(expected.length).to eq 2
     end
+
+
+    it "#create creates a new item instance" do
+      attributes = {
+        name: "Capita Defenders of Awesome 2018",
+        description: "This board both rips and shreds",
+        unit_price: 39999,
+        created_at: Time.now,
+        updated_at: Time.now
+      }
+      engine.items.create(attributes)
+      expected = engine.items.find_by_id(263567475)
+      expect(expected.name).to eq "Capita Defenders of Awesome 2018"
+    end
+
+    it "#delete deletes the specified item" do
+      engine.items.delete(263567475)
+      expected = engine.items.find_by_id(263567475)
+      expect(expected).to eq nil
+    end
+
+    it "#delete on unknown id does nothing" do
+      engine.items.delete(263567476)
+    end
+
+    it "#update updates an item" do
+      original_time = engine.items.find_by_id(263397059).updated_at
+      attributes = {
+        name: "Smelly Stuff"
+      }
+      engine.items.update(263397059, attributes)
+      expected = engine.items.find_by_id(263397059)
+      expect(expected.name).to eq "Smelly Stuff"
+      expect(expected.unit_price).to eq 130.0
+      expect(expected.updated_at).to be > original_time
+      expected = engine.items.find_by_name("Etre ailleurs")
+      expect(expected).to eq nil
+    end
+
+    it "#update on unknown id does nothing" do
+      engine.items.update(263567476, {})
+    end
+
   end
 
   context "Item" do
@@ -230,5 +308,12 @@ RSpec.describe "Iteration 0" do
       expect(item_one.updated_at).to eq Time.parse("2007-06-04 21:35:10 UTC")
       expect(item_one.updated_at.class).to eq Time
     end
+
+    it "#unit_price_to_dollars returns price as Float" do
+      expected = engine.items.find_by_id(263397059)
+      expect(expected.unit_price_to_dollars).to eq 130.0
+      expect(expected.unit_price_to_dollars.class).to eq Float
+    end
+
   end
 end
