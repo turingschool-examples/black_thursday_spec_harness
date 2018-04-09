@@ -91,8 +91,8 @@ RSpec.describe "Iteration 0" do
       attributes = {
         id: 13000000
       }
-      engine.items.update(12337412, attributes)
-      expected = engine.items.find_by_id(13000000)
+      engine.merchants.update(12337412, attributes)
+      expected = engine.merchants.find_by_id(13000000)
       expect(expected).to eq nil
     end
 
