@@ -66,17 +66,60 @@ RSpec.describe "Iteration 2" do
       expect(expected).to eq []
     end
 
-    it "#create creates a new invoice instance"
+    it "#create creates a new invoice instance" do
+      attributes = {
+        :customer_id => 7,
+        :merchant_id => 8,
+        :status      => :pending,
+        :created_at  => Time.now,
+        :updated_at  => Time.now,
+      }
+      engine.invoices.create(attributes)
+      expected = engine.invoices.find_by_id(4986)
+      expect(expected.merchant_id).to eq 8
+    end
 
-    it "#update updates an invoice"
+    it "#update updates an invoice" do
+      original_time = engine.invoices.find_by_id(4986).updated_at
+      attributes = {
+        status: :success
+      }
+      engine.invoices.update(4986, attributes)
+      expected = engine.invoices.find_by_id(4986)
+      expect(expected.status).to eq :success
+      expect(expected.customer_id).to eq 7
+      expect(expected.updated_at).to be > original_time
+    end
 
-    it "#update cannot update id"
+    it "#update cannot update id, customer_id, merchant_id, or created_at" do
+      attributes = {
+        id: 5000,
+        customer_id: 2,
+        merchant_id: 3,
+        created_at: Time.now
+      }
+      engine.invoices.update(4986, attributes)
+      expected = engine.invoices.find_by_id(5000)
+      expect(expected).to eq nil
+      expected = engine.invoices.find_by_id(4986)
+      expect(expected.customer_id).not_to eq attributes[:customer_id]
+      expect(expected.customer_id).not_to eq attributes[:merchant_id]
+      expect(expected.created_at).not_to eq attributes[:created_at]
+    end
 
-    it "#update on unknown invoice does nothing"
+    it "#update on unknown invoice does nothing" do
+      engine.invoices.update(5000, {})
+    end
 
-    it "#delete deletes the specified invoice"
+    it "#delete deletes the specified invoice" do
+      engine.invoices.delete(4986)
+      expected = engine.invoices.find_by_id(4986)
+      expect(expected).to eq nil
+    end
 
-    it "#delete on unknown invoice does nothing"
+    it "#delete on unknown invoice does nothing" do
+      engine.invoices.delete(5000)
+    end
 
   end
 
@@ -111,29 +154,6 @@ RSpec.describe "Iteration 2" do
     it "#updated_at returns a Time instance for the date the invoice was last updated" do
       expect(invoice.updated_at).to eq Time.parse("2015-12-10 00:00:00 -0700")
       expect(invoice.updated_at.class).to eq Time
-    end
-
-    it "#merchant returns the associated merchant" do
-      expected = invoice.merchant
-
-      expect(expected.class).to eq Merchant
-      expect(expected.id).to eq 12335690
-    end
-  end
-
-  context "Merchants" do
-    it "#invoices returns invoices associated with given merchant" do
-      merchant = engine.merchants.find_by_id(12335690)
-      expected = merchant.invoices
-
-      expect(expected.length).to eq 16
-      expect(expected.first.class).to eq Invoice
-
-      merchant = engine.merchants.find_by_id(12334189)
-      expected = merchant.invoices
-
-      expect(expected.length).to eq 10
-      expect(expected.first.class).to eq Invoice
     end
   end
 
