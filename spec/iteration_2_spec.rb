@@ -158,7 +158,7 @@ RSpec.describe "Iteration 2" do
   end
 
   context "SalesAnalyst" do
-    let(:sales_analyst) { engine.sales_analyst }
+    let(:sales_analyst) { engine.analyst }
 
     it "#average_invoices_per_merchant returns average number of invoices per merchant" do
       expected = sales_analyst.average_invoices_per_merchant

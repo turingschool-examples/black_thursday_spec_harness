@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe "Iteration 1" do
   context "Sales Analyst" do
-    let(:sales_analyst) { engine.sales_analyst }
+    let(:sales_analyst) { engine.analyst }
 
     it "#average_items_per_merchant returns average items per merchant" do
       expected = sales_analyst.average_items_per_merchant
