@@ -65,6 +65,19 @@ RSpec.describe "Iteration 2" do
 
       expect(expected).to eq []
     end
+
+    it "#create creates a new invoice instance"
+
+    it "#update updates an invoice"
+
+    it "#update cannot update id"
+
+    it "#update on unknown invoice does nothing"
+
+    it "#delete deletes the specified invoice"
+
+    it "#delete on unknown invoice does nothing"
+
   end
 
   context "Invoice" do
@@ -125,7 +138,7 @@ RSpec.describe "Iteration 2" do
   end
 
   context "SalesAnalyst" do
-    let(:sales_analyst) { SalesAnalyst.new(engine) }
+    let(:sales_analyst) { engine.sales_analyst }
 
     it "#average_invoices_per_merchant returns average number of invoices per merchant" do
       expected = sales_analyst.average_invoices_per_merchant
