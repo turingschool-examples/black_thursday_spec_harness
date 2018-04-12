@@ -67,50 +67,50 @@ RSpec.describe "Iteration 3" do
         :updated_at => Time.now
       }
       engine.invoice_items.create(attributes)
-      expected = engine.invoice_items.find_by_id(4986)
-      expect(expected.merchant_id).to eq 8
+      expected = engine.invoice_items.find_by_id(21831)
+      expect(expected.item_id).to eq 7
     end
 
-    it "#update updates an invoice" do
-      original_time = engine.invoice_items.find_by_id(4986).updated_at
+    it "#update updates an invoice item" do
+      original_time = engine.invoice_items.find_by_id(21831).updated_at
       attributes = {
-        status: :success
+        quantity: 13
       }
-      engine.invoice_items.update(4986, attributes)
-      expected = engine.invoice_items.find_by_id(4986)
-      expect(expected.status).to eq :success
-      expect(expected.customer_id).to eq 7
+      engine.invoice_items.update(21831, attributes)
+      expected = engine.invoice_items.find_by_id(21831)
+      expect(expected.quantity).to eq 13
+      expect(expected.item_id).to eq 7
       expect(expected.updated_at).to be > original_time
     end
 
-    it "#update cannot update id, customer_id, merchant_id, or created_at" do
+    it "#update cannot update id, item_id, invoice_id, or created_at" do
       attributes = {
-        id: 5000,
-        customer_id: 2,
-        merchant_id: 3,
+        id: 22000,
+        item_id: 32,
+        invoice_id: 53,
         created_at: Time.now
       }
-      engine.invoice_items.update(4986, attributes)
-      expected = engine.invoice_items.find_by_id(5000)
+      engine.invoice_items.update(21831, attributes)
+      expected = engine.invoice_items.find_by_id(22000)
       expect(expected).to eq nil
-      expected = engine.invoice_items.find_by_id(4986)
-      expect(expected.customer_id).not_to eq attributes[:customer_id]
-      expect(expected.customer_id).not_to eq attributes[:merchant_id]
+      expected = engine.invoice_items.find_by_id(21831)
+      expect(expected.item_id).not_to eq attributes[:item_id]
+      expect(expected.invoice_id).not_to eq attributes[:invoice_id]
       expect(expected.created_at).not_to eq attributes[:created_at]
     end
 
-    it "#update on unknown invoice does nothing" do
-      engine.invoice_items.update(5000, {})
+    it "#update on unknown invoice item does nothing" do
+      engine.invoice_items.update(22000, {})
     end
 
     it "#delete deletes the specified invoice" do
-      engine.invoice_items.delete(4986)
-      expected = engine.invoice_items.find_by_id(4986)
+      engine.invoice_items.delete(21831)
+      expected = engine.invoice_items.find_by_id(21831)
       expect(expected).to eq nil
     end
 
     it "#delete on unknown invoice does nothing" do
-      engine.invoice_items.delete(5000)
+      engine.invoice_items.delete(22000)
     end
 
   end
@@ -177,33 +177,87 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#find_all_by_credit_card_number returns all transactions matching given credit card number" do
-      credit_card_number = 4848466917766329
+      credit_card_number = "4848466917766329"
       expected = engine.transactions.find_all_by_credit_card_number(credit_card_number)
 
       expect(expected.length).to eq 1
       expect(expected.first.class).to eq Transaction
       expect(expected.first.credit_card_number).to eq credit_card_number
 
-      credit_card_number = 4848466917766328
+      credit_card_number = "4848466917766328"
       expected = engine.transactions.find_all_by_credit_card_number(credit_card_number)
 
       expect(expected.empty?).to eq true
     end
 
     it "#find_all_by_result returns all transactions matching given result" do
-      result = "success"
+      result = :success
       expected = engine.transactions.find_all_by_result(result)
 
       expect(expected.length).to eq 4158
       expect(expected.first.class).to eq Transaction
       expect(expected.first.result).to eq result
 
-      result = "failed"
+      result = :failed
       expected = engine.transactions.find_all_by_result(result)
 
       expect(expected.length).to eq 827
       expect(expected.first.class).to eq Transaction
       expect(expected.first.result).to eq result
+    end
+
+    it "#create creates a new transaction instance" do
+      attributes = {
+        :invoice_id => 8,
+        :credit_card_number => "4242424242424242",
+        :credit_card_expiration_date => "0220",
+        :result => "success",
+        :created_at => Time.now,
+        :updated_at => Time.now
+      }
+      engine.transactions.create(attributes)
+      expected = engine.transactions.find_by_id(4986)
+      expect(expected.invoice_id).to eq 8
+    end
+
+    it "#update updates a transaction" do
+      original_time = engine.transactions.find_by_id(4986).updated_at
+      attributes = {
+        result: "failed"
+      }
+      engine.transactions.update(4986, attributes)
+      expected = engine.transactions.find_by_id(4986)
+      expect(expected.result).to eq :failed
+      expect(expected.credit_card_expiration_date).to eq "0220"
+      expect(expected.updated_at).to be > original_time
+    end
+
+    it "#update cannot update id, invoice_id, or created_at" do
+      attributes = {
+        id: 5000,
+        invoice_id: 2,
+        created_at: Time.now
+      }
+      engine.transactions.update(4986, attributes)
+      expected = engine.transactions.find_by_id(5000)
+      expect(expected).to eq nil
+      expected = engine.transactions.find_by_id(4986)
+      expect(expected.invoice_id).not_to eq attributes[:invoice_id]
+      expect(expected.created_at).not_to eq attributes[:created_at]
+    end
+
+    it "#update on unknown transaction does nothing" do
+      engine.transactions.update(5000, {})
+    end
+
+    it "#delete deletes the specified transaction" do
+      engine.transactions.delete(4986)
+      expected = engine.transactions.find_by_id(4986)
+      expect(expected).to eq nil
+    end
+
+    it "#delete on unknown transaction does nothing" do
+      engine.transactions.delete(5000)
     end
   end
 
@@ -221,8 +275,8 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#credit_card_number returns the credit card number" do
-      expect(transaction.credit_card_number).to eq 4068631943231473
-      expect(transaction.credit_card_number.class).to eq Fixnum
+      expect(transaction.credit_card_number).to eq "4068631943231473"
+      expect(transaction.credit_card_number.class).to eq String
     end
 
     it "#credit_card_expiration_date returns the credit card expiration" do
@@ -231,8 +285,8 @@ RSpec.describe "Iteration 3" do
     end
 
     it "#result returns the result" do
-      expect(transaction.result).to eq "success"
-      expect(transaction.result.class).to eq String
+      expect(transaction.result).to eq :success
+      expect(transaction.result.class).to eq Symbol
     end
 
     it "#created_at returns a Time instance for the date the invoice item was created" do
@@ -289,6 +343,56 @@ RSpec.describe "Iteration 3" do
 
       expect(expected.length).to eq 85
       expect(expected.first.class).to eq Customer
+    end
+
+    it "#create creates a new customer instance" do
+      attributes = {
+        :first_name => "Joan",
+        :last_name => "Clarke",
+        :created_at => Time.now,
+        :updated_at => Time.now
+      }
+      engine.customers.create(attributes)
+      expected = engine.customers.find_by_id(1001)
+      expect(expected.first_name).to eq "Joan"
+    end
+
+    it "#update updates a customer" do
+      original_time = engine.customers.find_by_id(1001).updated_at
+      attributes = {
+        last_name: "Smith"
+      }
+      engine.customers.update(1001, attributes)
+      expected = engine.customers.find_by_id(1001)
+      expect(expected.last_name).to eq "Smith"
+      expect(expected.first_name).to eq "Joan"
+      expect(expected.updated_at).to be > original_time
+    end
+
+    it "#update cannot update id or created_at" do
+      attributes = {
+        id: 2000,
+        created_at: Time.now
+      }
+      engine.customers.update(1001, attributes)
+      expected = engine.customers.find_by_id(2000)
+      expect(expected).to eq nil
+      expected = engine.customers.find_by_id(1001)
+      expect(expected.created_at).not_to eq attributes[:created_at]
+    end
+
+    it "#update on unknown customer does nothing" do
+      engine.customers.update(2000, {})
+    end
+
+    it "#delete deletes the specified customer" do
+      engine.customers.delete(1001)
+      expected = engine.customers.find_by_id(1001)
+      expect(expected).to eq nil
+    end
+
+    it "#delete on unknown customer does nothing" do
+      engine.customers.delete(2000)
     end
   end
 
