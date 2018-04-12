@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe "Iteration 3" do
-  context "Invoice Items" do
+  context "Invoice Item Repository" do
     it "#all returns an array of all invoice item instances" do
       expected = engine.invoice_items.all
       expect(expected.count).to eq 21830
@@ -56,6 +56,63 @@ RSpec.describe "Iteration 3" do
       expect(expected.length).to eq 0
       expect(expected.empty?).to eq true
     end
+
+    it "#create creates a new invoice item instance" do
+      attributes = {
+        :item_id => 7,
+        :invoice_id => 8,
+        :quantity => 1,
+        :unit_price => BigDecimal.new(10.99, 4),
+        :created_at => Time.now,
+        :updated_at => Time.now
+      })
+      engine.invoice_items.create(attributes)
+      expected = engine.invoice_items.find_by_id(4986)
+      expect(expected.merchant_id).to eq 8
+    end
+
+    it "#update updates an invoice" do
+      original_time = engine.invoice_items.find_by_id(4986).updated_at
+      attributes = {
+        status: :success
+      }
+      engine.invoice_items.update(4986, attributes)
+      expected = engine.invoice_items.find_by_id(4986)
+      expect(expected.status).to eq :success
+      expect(expected.customer_id).to eq 7
+      expect(expected.updated_at).to be > original_time
+    end
+
+    it "#update cannot update id, customer_id, merchant_id, or created_at" do
+      attributes = {
+        id: 5000,
+        customer_id: 2,
+        merchant_id: 3,
+        created_at: Time.now
+      }
+      engine.invoice_items.update(4986, attributes)
+      expected = engine.invoice_items.find_by_id(5000)
+      expect(expected).to eq nil
+      expected = engine.invoice_items.find_by_id(4986)
+      expect(expected.customer_id).not_to eq attributes[:customer_id]
+      expect(expected.customer_id).not_to eq attributes[:merchant_id]
+      expect(expected.created_at).not_to eq attributes[:created_at]
+    end
+
+    it "#update on unknown invoice does nothing" do
+      engine.invoice_items.update(5000, {})
+    end
+
+    it "#delete deletes the specified invoice" do
+      engine.invoice_items.delete(4986)
+      expected = engine.invoice_items.find_by_id(4986)
+      expect(expected).to eq nil
+    end
+
+    it "#delete on unknown invoice does nothing" do
+      engine.invoice_items.delete(5000)
+    end
+
   end
 
   context "Invoice Item" do
@@ -92,7 +149,7 @@ RSpec.describe "Iteration 3" do
     end
   end
 
-  context "Transactions" do
+  context "Transaction Repository" do
     it "#all returns all transactions" do
       expected = engine.transactions.all
       expect(expected.count).to eq 4985
@@ -264,62 +321,26 @@ RSpec.describe "Iteration 3" do
     end
   end
 
-  context "Relationships" do
-    let(:invoice) { engine.invoices.find_by_id(106) }
-
-    it "invoice#items returns all items related to the invoice" do
-      expected = invoice.items
-      expect(expected.length).to eq 7
-      expect(expected.first.class).to eq Item
-    end
-
-    it "invoice#transactions returns all transactions related to the invoice" do
-      expected = invoice.transactions
-      expect(expected.length).to eq 1
-      expect(expected.first.class).to eq Transaction
-    end
-
-    it "invoice#customer returns the customer related to the invoice" do
-      expected = invoice.customer
-      expect(expected.id).to eq 22
-      expect(expected.class).to eq Customer
-    end
-
-    it "transaction#invoice returns the related invoice" do
-      expected = engine.transactions.find_by_id(1452).invoice
-
-      expect(expected.id).to eq  4746
-      expect(expected.class).to eq Invoice
-    end
-
-    it "merchant#customers returns related customers" do
-      expected = engine.merchants.find_by_id(12334194).customers
-
-      expect(expected.length).to eq 12
-      expect(expected.first.class).to eq Customer
-    end
-  end
-
   context "Business Intelligence" do
-    it "invoice#is_paid_in_full? returns true if the invoice is paid in full" do
-      expected = engine.invoices.find_by_id(1).is_paid_in_full?
+    let(:sales_analyst) { engine.analyst }
+
+    it "SalesAnalyst#is_paid_in_full? returns true if the invoice is paid in full" do
+      expected = sales_analyst.invoice_paid_in_full?(1)
       expect(expected).to eq true
 
-      expected = engine.invoices.find_by_id(200).is_paid_in_full?
+      expected = sales_analyst.invoice_paid_in_full?(200)
       expect(expected).to eq true
 
-      expected = engine.invoices.find_by_id(203).is_paid_in_full?
+      expected = sales_analyst.invoice_paid_in_full?(203)
       expect(expected).to eq false
 
-      expected = engine.invoices.find_by_id(204).is_paid_in_full?
+      expected = sales_analyst.invoice_paid_in_full?(204)
       expect(expected).to eq false
     end
 
-    it "invoice#total returns the total dollar amount if the invoice is paid in full" do
-      invoice = engine.invoices.all.first
-      expected = invoice.total
+    it "SalesAnalyst#total returns the total dollar amount if the invoice is paid in full" do
+      expected = sales_analyst.invoice_total(1)
 
-      expect(invoice.is_paid_in_full?).to eq true
       expect(expected).to eq 21067.77
       expect(expected.class).to eq BigDecimal
     end
