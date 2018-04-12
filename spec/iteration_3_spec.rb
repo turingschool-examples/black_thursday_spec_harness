@@ -65,7 +65,7 @@ RSpec.describe "Iteration 3" do
         :unit_price => BigDecimal.new(10.99, 4),
         :created_at => Time.now,
         :updated_at => Time.now
-      })
+      }
       engine.invoice_items.create(attributes)
       expected = engine.invoice_items.find_by_id(4986)
       expect(expected.merchant_id).to eq 8
