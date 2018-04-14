@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe "Iteration 4" do
 
-  let(:sales_analyst) { SalesAnalyst.new(engine) }
+  let(:sales_analyst) { engine.analyst }
   let(:merchant) { engine.merchants.find_by_id(12335523) }
 
   context "Sales Analyst - Merchant Repository" do

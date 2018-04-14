@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe "iteration 5" do
-  let(:sales_analyst) { SalesAnalyst.new(engine) }
+  let(:sales_analyst) { engine.analyst }
 
   context "sales analyst - customer repository" do
     it "#top_buyers returns the top x customers that spent the most money" do
@@ -38,8 +38,8 @@ RSpec.describe "iteration 5" do
     it "#one_time_buyers returns customers with only one invoice" do
       expected = sales_analyst.one_time_buyers
 
-      expect(expected.length).to eq 150
-      expect(expected.first.fully_paid_invoices.length).to eq 1
+      expect(expected.length).to eq 76
+      expect(engine.invoices.find_all_by_customer_id(expected.first.id).length).to eq 1
       expect(expected.first.class).to eq Customer
     end
 
