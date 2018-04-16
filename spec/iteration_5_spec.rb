@@ -91,7 +91,6 @@ RSpec.describe "iteration 5" do
       expected = sales_analyst.best_invoice_by_revenue
 
       expect(expected.id).to eq 3394
-      expect(expected.total).to eq 47877.97
       expect(expected.class).to eq Invoice
     end
 
