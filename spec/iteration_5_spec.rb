@@ -96,10 +96,8 @@ RSpec.describe "iteration 5" do
 
     it "#best_invoice_by_quantity returns the invoice with the highest item count" do
       expected = sales_analyst.best_invoice_by_quantity
-      highest_quantity = expected.invoice_items.map(&:quantity).reduce(:+)
 
       expect(expected.id).to eq 1281
-      expect(highest_quantity).to eq 64
       expect(expected.class).to eq Invoice
     end
   end
