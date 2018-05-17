@@ -82,7 +82,7 @@ RSpec.describe "Iteration 2" do
     it "#update updates an invoice" do
       original_time = engine.invoices.find_by_id(4986).updated_at
       attributes = {
-        status: "success"
+        status: :success
       }
       engine.invoices.update(4986, attributes)
       expected = engine.invoices.find_by_id(4986)
