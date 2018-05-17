@@ -223,7 +223,7 @@ RSpec.describe "Iteration 3" do
     it "#update updates a transaction" do
       original_time = engine.transactions.find_by_id(4986).updated_at
       attributes = {
-        result: "failed"
+        result: :failed
       }
       engine.transactions.update(4986, attributes)
       expected = engine.transactions.find_by_id(4986)
