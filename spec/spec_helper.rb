@@ -34,7 +34,7 @@ if bad_repositories.any?
   \e[33mTHESE REPOSITORIES HAVE ISSUES: #{bad_repositories.inspect}\e[31m
 
      You need to override inspect on your repositories.
-     If you don't, the default inspect will try try to create a string so large that ruby will stop dead.
+     If you don't, the default inspect will try to create a string so large that ruby will stop dead.
     This is generally true of anything that might try to print out all the rows and associated rows.
 
     If your test suite suddenly stops for over 2 minutes (these tests are integration, they are slow)
