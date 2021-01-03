@@ -6,7 +6,7 @@ RSpec.describe "iteration 5" do
   let(:sales_analyst) { engine.analyst }
 
   context "sales analyst - customer repository" do
-    it "#top_buyers returns the top x customers that spent the most money" do
+    xit "#top_buyers returns the top x customers that spent the most money" do
       x = 5
       expected = sales_analyst.top_buyers(5)
 
@@ -17,7 +17,7 @@ RSpec.describe "iteration 5" do
       expected.each { |c| expect(c.class).to eq Customer }
     end
 
-    it "#top_buyers returns the top 20 customers by default if no number is given" do
+    xit "#top_buyers returns the top 20 customers by default if no number is given" do
       expected = sales_analyst.top_buyers
 
       expect(expected.length).to eq 20
@@ -27,7 +27,7 @@ RSpec.describe "iteration 5" do
       expected.each { |c| expect(c.class).to eq Customer }
     end
 
-    it "#top_merchant_for_customer returns the favorite merchant for given customer" do
+    xit "#top_merchant_for_customer returns the favorite merchant for given customer" do
       customer_id = 100
       expected = sales_analyst.top_merchant_for_customer(customer_id)
 
@@ -35,7 +35,7 @@ RSpec.describe "iteration 5" do
       expect(expected.id).to eq 12336753
     end
 
-    it "#one_time_buyers returns customers with only one invoice" do
+    xit "#one_time_buyers returns customers with only one invoice" do
       expected = sales_analyst.one_time_buyers
 
       expect(expected.length).to eq 76
@@ -43,14 +43,14 @@ RSpec.describe "iteration 5" do
       expect(expected.first.class).to eq Customer
     end
 
-    it "#one_time_buyers_top_item returns the item bought by one time buyers in the highest quantity" do
+    xit "#one_time_buyers_top_item returns the item bought by one time buyers in the highest quantity" do
       expected = sales_analyst.one_time_buyers_top_item
 
       expect(expected.id).to eq 263396463
       expect(expected.class).to eq Item
     end
 
-    it "#items_bought_in_year returns the items which the given customer bought in the given year" do
+    xit "#items_bought_in_year returns the items which the given customer bought in the given year" do
       customer_id = 400
       year = 2000
       expected = sales_analyst.items_bought_in_year(customer_id, year)
@@ -68,7 +68,7 @@ RSpec.describe "iteration 5" do
       expect(expected.first.class).to eq Item
     end
 
-    it "#highest_volume_items returns an array of the item(s) purchased the most times by a customer" do
+    xit "#highest_volume_items returns an array of the item(s) purchased the most times by a customer" do
       expected = sales_analyst.highest_volume_items(200)
 
       expect(expected.length).to eq 6
@@ -77,7 +77,7 @@ RSpec.describe "iteration 5" do
       expect(expected.first.class).to eq Item
     end
 
-    it "#customers_with_unpaid_invoices returns customers with unpaid invoices" do
+    xit "#customers_with_unpaid_invoices returns customers with unpaid invoices" do
       expected = sales_analyst.customers_with_unpaid_invoices
 
       expect(expected.length).to eq 786
@@ -86,14 +86,14 @@ RSpec.describe "iteration 5" do
       expect(expected.first.class).to eq Customer
     end
 
-    it "#best_invoice_by_revenue returns the invoice with the highest dollar amount" do
+    xit "#best_invoice_by_revenue returns the invoice with the highest dollar amount" do
       expected = sales_analyst.best_invoice_by_revenue
 
       expect(expected.id).to eq 3394
       expect(expected.class).to eq Invoice
     end
 
-    it "#best_invoice_by_quantity returns the invoice with the highest item count" do
+    xit "#best_invoice_by_quantity returns the invoice with the highest item count" do
       expected = sales_analyst.best_invoice_by_quantity
 
       expect(expected.id).to eq 1281
