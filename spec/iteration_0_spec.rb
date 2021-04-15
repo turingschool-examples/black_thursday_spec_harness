@@ -178,17 +178,17 @@ RSpec.describe "Iteration 0" do
     end
 
     it "#find_all_by_price finds all items matching given price" do
-      price = BigDecimal.new(25)
+      price = BigDecimal(25)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 79
 
-      price = BigDecimal.new(10)
+      price = BigDecimal(10)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 63
 
-      price = BigDecimal.new(20000)
+      price = BigDecimal(20000)
       expected = engine.items.find_all_by_price(price)
 
       expect(expected.length).to eq 0
@@ -232,7 +232,7 @@ RSpec.describe "Iteration 0" do
       attributes = {
         name: "Capita Defenders of Awesome 2018",
         description: "This board both rips and shreds",
-        unit_price: BigDecimal.new(399.99, 5),
+        unit_price: BigDecimal(399.99, 5),
         created_at: Time.now,
         updated_at: Time.now,
         merchant_id: 25
@@ -245,7 +245,7 @@ RSpec.describe "Iteration 0" do
     it "#update updates an item" do
       original_time = engine.items.find_by_id(263567475).updated_at
       attributes = {
-        unit_price: BigDecimal.new(379.99, 5)
+        unit_price: BigDecimal(379.99, 5)
       }
       engine.items.update(263567475, attributes)
       expected = engine.items.find_by_id(263567475)

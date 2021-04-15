@@ -82,7 +82,7 @@ RSpec.describe "Iteration 4" do
     it "#revenue_by_merchant returns the revenue for given merchant" do
       expected = sales_analyst.revenue_by_merchant(12334194)
 
-      expect(expected).to eq BigDecimal.new(expected)
+      expect(expected).to eq BigDecimal(expected)
       expect(expected.class).to eq BigDecimal
     end
   end
