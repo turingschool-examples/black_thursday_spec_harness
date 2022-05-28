@@ -22,7 +22,7 @@ begin
   require 'sales_engine'
   require 'sales_analyst'
 rescue LoadError => e
-  die_because.call "Expect `black_thursday`` to be in #{black_thursday_root.inspect}, when loaded it died because #{e.inspect}"
+  die_because.call "Expect `black_thursday` to be in #{black_thursday_root.inspect}, when loaded it died because #{e.inspect}"
 end
 require 'date'
 
@@ -40,7 +40,7 @@ if bad_repositories.any?
     If your test suite suddenly stops for over 2 minutes (these tests are integration, they are slow)
     then probably something is raising an exception, which inspects the object and triggers this issue.
 
-    Add a new method called `inspect` to your `repository` classes, like so: 
+    Add a new method called `inspect` to your `repository` classes, like so:
     e.g.
     class SomeRepository
       def inspect
