@@ -1,6 +1,7 @@
 ## Iteration 0 - Merchants & Items
 
 require "spec_helper"
+require 'time'
 
 RSpec.describe "Iteration 0" do
   context "Merchant Repository" do

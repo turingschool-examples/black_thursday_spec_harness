@@ -6,7 +6,7 @@ end
 
 # Must run with bundle exec
 unless defined? Bundler
-  die_because.call "Run with `bundle exec` or you'll have issues!"
+  die_because.call "You must run with `bundle exec` or you'll have issues! Ex: `bundle exec rake rspec`"
 end
 
 # Must run from root
@@ -22,7 +22,7 @@ begin
   require 'sales_engine'
   require 'sales_analyst'
 rescue LoadError => e
-  die_because.call "Expect black thursday to be in #{black_thursday_root.inspect}, when loaded it died because #{e.inspect}"
+  die_because.call "Expect `black_thursday` to be in #{black_thursday_root.inspect}, when loaded it died because #{e.inspect}"
 end
 require 'date'
 
@@ -34,12 +34,13 @@ if bad_repositories.any?
   \e[33mTHESE REPOSITORIES HAVE ISSUES: #{bad_repositories.inspect}\e[31m
 
      You need to override inspect on your repositories.
-     If you don't, the default inspect will try to create a string so large that ruby will stop dead.
+     If you don't, the default `inspect` will try to create a string so large that ruby will stop dead.
     This is generally true of anything that might try to print out all the rows and associated rows.
 
     If your test suite suddenly stops for over 2 minutes (these tests are integration, they are slow)
     then probably something is raising an exception, which inspects the object and triggers this issue.
 
+    Add a new method called `inspect` to your `repository` classes, like so:
     e.g.
     class SomeRepository
       def inspect
